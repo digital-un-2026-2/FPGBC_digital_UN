@@ -1,0 +1,5 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "GW2AR-LV18EQ144PC8_17") (type "KiCad") (uri "${KIPRJMOD}/../symbols/GW2AR-LV18EQ144PC8_17/GW2AR-LV18EQ144PC8_17.kicad_sym") (options "") (descr ""))
+	(lib (name "CH32V203C8T6") (type "KiCad") (uri "${KIPRJMOD}/../symbols/CH32V203C8T6/CH32V203C8T6.kicad_sym") (options "") (descr ""))
+)

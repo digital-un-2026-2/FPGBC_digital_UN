@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP GW2AR-LV18EQ144PC8_17
+D The GW2AR FPGAs are members of the 2 series of the Arora family. The GW2AR devices are system-in-package chips with memory chips integrated into them based on the GW2A devices, featuring high- performance DSP resources, high-speed LVDS interfaces, and abundant BSRAM memory resources. These embedded resources combined with a streamlined FPGA architecture and 55nm process make the GW2AR series of FPGA products suitable for high-speed and low-cost applications.
+K
+F https://cdn.gowinsemi.com.cn/UG115E.pdf
+$ENDCMP
+#
+#End Doc Library
