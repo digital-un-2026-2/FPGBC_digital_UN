@@ -1,0 +1,40 @@
+<mxfile host="65bd71144e">
+    <diagram id="F01_p-HBrbQy1Tmiw2HM" name="Page-1">
+        <mxGraphModel dx="2042" dy="273" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#C7AA85" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="GOWIN&amp;nbsp; AR - LV18EQ144PC" style="externalPins=1;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=sequential;drawPins=1;left=1%20VCC%20%2C2%20GND%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13%20TMS%2C14%20TCK%2C15%2C16%20TDI%2C17%20GND%2C18%20TDO%2C19%2C20%2C21%2C22%2C23%2C24%2C25%2C26%2C27%2C28%2C29%2C30%2C31%2C32%2C33%2C34%2C35%2C36%20VCC;right=108%20VCC%2C107%20GND%2C106%2C105%2C104%2C103%2C102%2C101%2C100%2C99%2C98%2C97%2C96%2C95%20To%20SPI%20Flash%2C94%2C93%2C92%2C915%2C90%2C89%20GND%2C88%2C87%2C86%2C85%2C84%2C83%2C82%2C81%2C80%2C79%2C78%2C77%2C76%2C75%20GND%2C74%20GND%2C73%20VCC;bottom=37%2C38%2C39%2C40%2C41%2C42%2C43%2C44%2C45%2C46%2C47%2C48%2C49%2C50%2C51%2C52%2C53%20GND%2C54%2C55%2C56%2C57%2C58%2C59%2C60%2C61%2C62%2C63%2C64%2C65%2C66%2C67%2C68%2C69%2C70%2C71%2C72;top=144%2C143%2C142%2C141%2C140%2C139%2C138%2C137%2C136%2C135%2C134%2C133%2C132%2C131%2C130%2C129%2C128%2C127%2C126%2C125%2C124%2C123%2C122%2C121%2C120%2C119%2C118%2C117%2C116%2C115%2C114%2C113%2C112%2C111%2C110%2C109;rightRot=180;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="110" width="1120" height="1150" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="MCU&amp;nbsp;WCH CH32V203" style="externalPins=1;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=sequential;drawPins=1;left=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10%2C11%2C12;right=36%2C35%2C34%2C33%2C32%2C31%2C29%2C28%20PB15%2C27%20PB14%2C26%20PB13%2C25%20PB12;bottom=13%2C14%2C15%2C16%2C17%2C18%2C19%2C20%2C21%2C22%2C23%2C24;top=48%2C47%2C46%2C45%2C44%2C43%2C42%2C41%2C40%2C39%2C38%2C37;rightArr=,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,;" parent="1" vertex="1">
+                    <mxGeometry x="1982" y="400" width="760" height="740" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Conector&lt;br&gt;JTAG" style="externalPins=1;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=sequential;drawPins=1;left=0;right=TMS%2CTCK%2CTDI%2CTDO%2C%20VCC%20%2CGND;bottom=0;top=0;" parent="1" vertex="1">
+                    <mxGeometry x="-160" y="460" width="150" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Conector&lt;br&gt;JTAG" style="externalPins=1;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=sequential;drawPins=1;left=0;right=TMS%2CTCK%2CTDI%2CTDO%2C%20VCC%20%2CGND;bottom=0;top=0;" vertex="1" parent="1">
+                    <mxGeometry x="1790" y="1169" width="150" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="conn_mcu_1" style="externalPins=0;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=input;drawPins=0;left=0;right=1;bottom=0;top=0;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="780" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="conn_mcu_1" style="externalPins=0;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=input;drawPins=0;left=0;right=1;bottom=0;top=0;direction=north;" vertex="1" parent="1">
+                    <mxGeometry x="2022" y="1150" width="40" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="conn_mcu_2" style="externalPins=0;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=input;drawPins=0;left=0;right=1;bottom=0;top=0;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="690" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="conn_mcu_2" style="externalPins=0;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=input;drawPins=0;left=0;right=1;bottom=0;top=0;direction=north;" vertex="1" parent="1">
+                    <mxGeometry x="2082" y="1150" width="40" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="conn_mcu_4" style="externalPins=0;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=input;drawPins=0;left=0;right=1;bottom=0;top=0;direction=north;" vertex="1" parent="1">
+                    <mxGeometry x="2200" y="1150" width="40" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="conn_mcu_4" style="externalPins=0;recursiveResize=0;shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.rtl.abstract.entity;container=1;collapsible=0;kind=input;drawPins=0;left=0;right=1;bottom=0;top=0;direction=east;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="541" width="120" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
