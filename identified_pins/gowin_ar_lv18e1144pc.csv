@@ -16,6 +16,14 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 144,IOR30A/MODE0,I/O,MODE0,GND; 
 142,IOR30B/MODE1,I/O,MODE1,GND;
 143,IOR31A/MODE2,I/O,MODE2,GND;
+99,IOR22B,I/O,None,RIGHT(Internal pull-up)
+100,IOR22A,I/O,None,DOWN(Internal pull-up)
+101,IOR20B,I/O,None,UP(Internal pull-up)
+102,IOR20A,I/O,None,LEFT(Internal pull-up)
+51,IOB20B,I/O,None,A(Internal pull-up)
+50,IOB20A,I/O,None,B(Internal pull-up)
+97,IOR27B/GCLKC_2,I/O,None,START
+98,IOR27A/GCLKT_2,I/O,None,SELECT
 31,VCCX/VCCIO4/VCCIO6,Power,None,VCC;
 55,VCCX/VCCIO4/VCCIO6,Power,None,VCC;
 1,VCC/VCCPLLL1,Power,None,VCC;
