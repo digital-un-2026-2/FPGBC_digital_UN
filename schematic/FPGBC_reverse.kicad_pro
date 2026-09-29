@@ -429,7 +429,7 @@
         "uuid": "85772c2f-0423-4b8b-9c6e-9d69aab6c16f"
       }
     ],
-    "used_designators": "J1,IC1,U1-5,LED1",
+    "used_designators": "J1,IC1,U1-5,R1-4,LED1",
     "variants": []
   },
   "sheets": [
