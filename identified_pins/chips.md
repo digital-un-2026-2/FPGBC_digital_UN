@@ -4,9 +4,9 @@
 
 ## HGSEMI 24C04C  https://www.microchip.com/en-us/product/at24c04c (placed)
 
-## LJ24SA TI 62K CJDC Level Shifter
+## LJ24SA TI 62K CJDC 8 Bit Level Shifter https://www.ti.com/lit/ds/symlink/sn74lvc8t245.pdf?ts=1790791035737&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FSN74LVC8T245
 
-## YF04E TI 4AK AZD3 Level Shifter
+## YF04E TI 4AK AZD3 4 Bit Level Shifter https://www.ti.com/lit/ds/symlink/txb0104.pdf?ts=1790618362914&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTXB0104
 
 ## LPS LP28303A https://www.lowpowersemi.com/Product-detail/17-LP28303A?parent_id=17
 

@@ -76,9 +76,12 @@ def plot_lqfp144(csv_path="gowin_ar_lv18e1144pc.csv", output_path="lqfp144_pinou
             name_lower = info['name'].lower()
             conn_lower = info['conn'].lower()
 
-            if 'power' in func or 'vcc' in name_lower or 'gnd' in name_lower:
+            if 'power' in func:
                 lead_color = '#bf616a'    # Rojo / Coral (Alimentación)
                 label_color = '#ff8b94'
+            elif 'ground' in func :
+                lead_color = '#00528F'
+                label_color = '#0095FF'
             elif 'jtag' in conn_lower or 'mcu' in conn_lower or any(j in name_lower for j in ['tms', 'tck', 'tdi', 'tdo']):
                 lead_color = '#ebcb8b'    # Amarillo (JTAG)
                 label_color = '#ffea79'
@@ -119,8 +122,8 @@ def plot_lqfp144(csv_path="gowin_ar_lv18e1144pc.csv", output_path="lqfp144_pinou
             ax.add_patch(lead)
             ax.text(x, y_body + 0.8, str(pin_num), color='#d8dee9', fontsize=6.5, ha='center', va='bottom', fontweight='bold', rotation=90, zorder=4)
             if is_conn:
-                ax.text(x, y_body - lead_length - 0.7, label, color=label_color, fontsize=7.5,
-                        fontweight='bold', ha='left', va='center', rotation=-90, zorder=4)
+                ax.text(x, y_body - lead_length - 0.5, label, color=label_color, fontsize=7.5,
+                        fontweight='bold', ha='left', va='top', rotation=-90, zorder=4)
 
         # --- LADO DERECHO: Pines 73 a 108 (abajo -> arriba) ---
         elif 73 <= pin_num <= 108:
@@ -145,11 +148,11 @@ def plot_lqfp144(csv_path="gowin_ar_lv18e1144pc.csv", output_path="lqfp144_pinou
             ax.add_patch(lead)
             ax.text(x, y_body - 0.8, str(pin_num), color='#d8dee9', fontsize=6.5, ha='center', va='top', fontweight='bold', rotation=90, zorder=4)
             if is_conn:
-                ax.text(x, y_body + lead_length + 0.7, label, color=label_color, fontsize=7.5,
-                        fontweight='bold', ha='left', va='center', rotation=90, zorder=4)
+                ax.text(x, y_body + lead_length + 0.5, label, color=label_color, fontsize=7.5,
+                        fontweight='bold', ha='left', va='bottom', rotation=90, zorder=4)
 
     # 4. Ajustar márgenes y renderizado
-    margin = 26.0
+    margin = 32.0
     ax.set_xlim(-half_body - margin, half_body + margin)
     ax.set_ylim(-half_body - margin, half_body + margin)
     ax.set_aspect('equal')
