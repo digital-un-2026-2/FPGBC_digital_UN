@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-def plot_lqfp144(csv_path="gowin_ar_lv18e1144pc.csv", output_path="lqfp144_pinout.png"):
+def plot_lqfp144(csv_path="gowin_ar_lv18e144pc.csv", output_path="lqfp144_pinout.png"):
     # 1. Cargar y limpiar los datos del CSV
     df = pd.read_csv(csv_path)
     
@@ -57,7 +57,7 @@ def plot_lqfp144(csv_path="gowin_ar_lv18e1144pc.csv", output_path="lqfp144_pinou
     # Textos centrales del circuito integrado
     ax.text(0, 3.5, "LQFP-144", color='#eceff4', fontsize=24, fontweight='bold', ha='center', va='center', zorder=3)
     ax.text(0, 0.0, "GOWIN FPGA", color='#88c0d0', fontsize=17, fontweight='semibold', ha='center', va='center', zorder=3)
-    ax.text(0, -3.2, "GW1N / AR_LV18E1144PC", color='#d8dee9', fontsize=13, ha='center', va='center', zorder=3)
+    ax.text(0, -3.2, "GW2AR-LV18EQ144PC", color='#d8dee9', fontsize=13, ha='center', va='center', zorder=3)
     ax.text(0, -6.5, f"Pines conectados: {len(pin_data)} / 144", color='#a3be8c', fontsize=12, ha='center', va='center', zorder=3)
 
     # Coordenadas distribuidas a lo largo de cada lado
@@ -72,22 +72,34 @@ def plot_lqfp144(csv_path="gowin_ar_lv18e1144pc.csv", output_path="lqfp144_pinou
 
         # Paleta de colores semántica
         if is_conn:
-            func = info['func'].lower()
+            func_lower = info['func'].lower()
             name_lower = info['name'].lower()
             conn_lower = info['conn'].lower()
 
-            if 'power' in func:
+            if 'power' in func_lower:
                 lead_color = '#bf616a'    # Rojo / Coral (Alimentación)
                 label_color = '#ff8b94'
-            elif 'ground' in func :
-                lead_color = '#00528F'
-                label_color = '#0095FF'
+            elif 'ground' in func_lower :
+                lead_color = '#1F3C88'
+                label_color = '#5893D4'
             elif 'jtag' in conn_lower or 'mcu' in conn_lower or any(j in name_lower for j in ['tms', 'tck', 'tdi', 'tdo']):
-                lead_color = '#ebcb8b'    # Amarillo (JTAG)
-                label_color = '#ffea79'
+                lead_color = '#FFEA6C'    # Amarillo (JTAG)
+                label_color = '#F7B633'
+            elif 'mcu' in conn_lower:
+                lead_color = '#7CD5C7'
+                label_color = '#06D6A0'
             elif 'eeprom' in conn_lower or 'i2c' in conn_lower or 'scl' in name_lower or 'sda' in name_lower:
                 lead_color = '#a3be8c'    # Verde (I2C / EEPROM)
                 label_color = '#b8e994'
+            elif 'ui' in func_lower:
+                lead_color = '#8C56D4'
+                label_color = '#DC95FF'
+            elif 'mipi' in conn_lower:
+                lead_color = '#E2B4BD'
+                label_color = '#F7D6D0'
+            elif 'cartucho' in conn_lower:
+                lead_color = '#2A835F'
+                label_color = '#8BBB92'
             else:
                 lead_color = '#88c0d0'    # Cian (I/O General)
                 label_color = '#88e1f2'
@@ -164,4 +176,4 @@ def plot_lqfp144(csv_path="gowin_ar_lv18e1144pc.csv", output_path="lqfp144_pinou
     #plt.show()
 
 if __name__ == '__main__':
-    plot_lqfp144("gowin_ar_lv18e1144pc.csv")
+    plot_lqfp144("gowin_ar_lv18e144pc.csv")
