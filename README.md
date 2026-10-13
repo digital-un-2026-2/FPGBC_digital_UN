@@ -5,9 +5,10 @@ Repositorio principal para la ingeniería inversa de la [FPGBC](https://funnypla
 
 
 ## Diagrama de bloques
+<img src="/blocks/out.svg" alt="bloques" width="200"/>
+
 
 ## Conexiones por integrado
-
 ### FPGA
 ### Memoria Flash
 ### Memoria EEPROM

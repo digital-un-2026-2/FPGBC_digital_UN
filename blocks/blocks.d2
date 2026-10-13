@@ -2,7 +2,7 @@ vars : {
     d2-config : {
         layout-engine : tala
         theme-id : 1
-        
+           
     }
 }
 EEPROM I2C <-> FPGA
@@ -11,8 +11,8 @@ EEPROM I2C : |`md
     ### EEPROM I2C
     |Señal|Pin|_|
     |-|-|-|
-    |SCL | IOL32A|<-| 
-    |SDA | IOL32B|<->|
+    |SCL | 23 |<-| 
+    |SDA | 24 |<->|
 `|
 
 LCD MIPI.shape:rectangle
@@ -22,56 +22,57 @@ LCD MIPI :|`md
 
     |Señal|Pin|Pin LVDS|
     |-|-|-|    
-    |CLK_N|IOT19A|IOT48B|
-    |CLK_P|IOT23A|IOT48A|
-    |DATA 1_N|IOT22A|IOT42B|
-    |DATA 1_P|IOT23B|IOT42A|
-    |DATA 0_N|IOT27A|IOT40B|
-    |DATA 0_P|IOT27B|IOT40A|                     
-`|
+    |CLK_N| 128 |112|
+    |CLK_P| 126 |113|
+    |DATA 1_N| 125 |114|
+    |DATA 1_P| 124 |115|
+    |DATA 0_N| 123 |116|
+    |DATA 0_P| 122 |117|                     
+`|{near:center-right}
 
 MCU CH32V -> FPGA
 USB -> MCU CH32V
 
 Cartucho : {
+    near:bottom-left
     Dirección_0 <- _.FPGA
     Dirección_0 : |`md
         | Señal | Pin    |
         |-------|--------|
-        | A0    | IOB40A |
-        | A1    | IOB40B |
-        | A2    | IOB42A |
-        | A3    | IOB42B |
-        | A4    | IOB48A |
-        | A5    | IOB48B |
-        | A6    | IOB53A |        
+        | A0    | 64 |
+        | A1    | 65 |
+        | A2    | 66 |
+        | A3    | 67 |
+        | A4    | 68 |
+        | A5    | 69 |
+        | A6    | 70 |        
     `|
     Dirección_1 <- _.FPGA
     Dirección_1 : |`md
         | Señal | Pin    |
         |-------|--------|
-        | A7    | IOB53B |
-        | A8    | IOB55B |
-        | A9    | IOR50B |
-        | A10   | IOR50A |
-        | A11   | IOR49B |
-        | A12   | IOR49A |
-        | A13   | IOR45A |
-        | A14   | IOR42A |
-        | A15   | IOR42A |
+        | A7    | 71 |
+        | A8    | 72 |
+        | A9    | 76 |
+        | A10   | 78 |
+        | A11   | 79 |
+        | A12   | 80 |
+        | A13   | 82 |
+        | A14   | 84 |
+        | A15   | 84 |
     `|
     Datos <-> _.FPGA
     Datos : |`md
         | Señal | Pin    |
         |-------|--------|
-        | D0    | IOB12B |
-        | D1    | IOB12A |
-        | D2    | IOB7B  |
-        | D3    | IOB7A  |
-        | D4    | IOB6B  |
-        | D5    | IOB6A  |
-        | D6    | IOB5B  |
-        | D7    | IOB5A  |
+        | D0    | 45 |
+        | D1    | 44 |
+        | D2    | 43 |
+        | D3    | 42 |
+        | D4    | 41 |
+        | D5    | 40 |
+        | D6    | 39 |
+        | D7    | 38 |
         
     `|
 
@@ -79,11 +80,11 @@ Cartucho : {
     Control : |`md
         | Señal | Pin    |
         |-------|--------|
-        | CLK   | IOB34A |
-        | N_WR  | IOB34B |
-        | N_RD  | IOB38A |
-        | N_CS  | IOB38B |
-        |OE     | IOB17A |  
+        | CLK   | 60 |
+        | N_WR  | 61 |
+        | N_RD  | 62 |
+        | N_CS  | 63 |
+        |OE     | 48 |  
     `|
 }
 
@@ -96,16 +97,16 @@ Pulsadores(Internal Pull-up): |`md
 
     |Señal|Pin|
     |-|-|
-    |A|  IOB20B|
-    |B | IOB20A|
-    |START|  IOR27B|
-    |SELECT|  IOR27A|
-    |RIGHT|  IOR22B|
-    |UP|  IOR20B|
-    |DOWN|  IOR22A|
-    |LEFT_|  IOR20A|
+    |A| 51 |
+    |B | 50 |
+    |START| 97 |
+    |SELECT| 98 |
+    |RIGHT| 99 |
+    |UP| 101 |
+    |DOWN| 100 |
+    |LEFT_| 102 |
     
-    `|
+`|
 
 Flash SPI.shape : rectangle
 Flash SPI <-> FPGA
@@ -113,10 +114,10 @@ Flash SPI : |`md
     ### Flash SPI
     |Señal|Pin|_|
     |-|-|-|
-    |CLK |IOR34B|<-|
-    |N_CS(Pull-up)|IOR34A|<-|
-    |DI(Pull-up)|IOR33B|<-|
-    |DO(Pull-up)| IOR33A|->|
+    |CLK | 93 |<-|
+    |N_CS(Pull-up)| 94 |<-|
+    |DI(Pull-up)| 95 |<-|
+    |DO(Pull-up)| 96 |->|
 `|
 
 GB Link.shape : rectangle
@@ -127,10 +128,10 @@ GB Link : |`md
 
     |Señal|Pin|-|
     |-|-|-|
-    |Serial Out|IOL33B|<-|
-    |Serial In|IOL33A|->|
-    |CLK|IOL36B|<-|
-    |CLK_OE|IOL36A|<-|
+    |Serial Out| 28 |<-|
+    |Serial In| 27 |->|
+    |CLK| 30 |<-|
+    |CLK_OE| 29 |<-|
 `|
 
 Control Volumen.shape : rectangle
@@ -143,4 +144,4 @@ Control Volumen : |`md
     |Subir|
     |Bajar|
     |Botón|
-`|
+`|{near:center-left}
