@@ -1,0 +1,146 @@
+vars : {
+    d2-config : {
+        layout-engine : tala
+        theme-id : 1
+        
+    }
+}
+EEPROM I2C <-> FPGA
+EEPROM I2C.shape : rectangle
+EEPROM I2C : |`md
+    ### EEPROM I2C
+    |Señal|Pin|_|
+    |-|-|-|
+    |SCL | IOL32A|<-| 
+    |SDA | IOL32B|<->|
+`|
+
+LCD MIPI.shape:rectangle
+LCD MIPI <- FPGA
+LCD MIPI :|`md
+    ### LDC MIPI
+
+    |Señal|Pin|Pin LVDS|
+    |-|-|-|    
+    |CLK_N|IOT19A|IOT48B|
+    |CLK_P|IOT23A|IOT48A|
+    |DATA 1_N|IOT22A|IOT42B|
+    |DATA 1_P|IOT23B|IOT42A|
+    |DATA 0_N|IOT27A|IOT40B|
+    |DATA 0_P|IOT27B|IOT40A|                     
+`|
+
+MCU CH32V -> FPGA
+USB -> MCU CH32V
+
+Cartucho : {
+    Dirección_0 <- _.FPGA
+    Dirección_0 : |`md
+        | Señal | Pin    |
+        |-------|--------|
+        | A0    | IOB40A |
+        | A1    | IOB40B |
+        | A2    | IOB42A |
+        | A3    | IOB42B |
+        | A4    | IOB48A |
+        | A5    | IOB48B |
+        | A6    | IOB53A |        
+    `|
+    Dirección_1 <- _.FPGA
+    Dirección_1 : |`md
+        | Señal | Pin    |
+        |-------|--------|
+        | A7    | IOB53B |
+        | A8    | IOB55B |
+        | A9    | IOR50B |
+        | A10   | IOR50A |
+        | A11   | IOR49B |
+        | A12   | IOR49A |
+        | A13   | IOR45A |
+        | A14   | IOR42A |
+        | A15   | IOR42A |
+    `|
+    Datos <-> _.FPGA
+    Datos : |`md
+        | Señal | Pin    |
+        |-------|--------|
+        | D0    | IOB12B |
+        | D1    | IOB12A |
+        | D2    | IOB7B  |
+        | D3    | IOB7A  |
+        | D4    | IOB6B  |
+        | D5    | IOB6A  |
+        | D6    | IOB5B  |
+        | D7    | IOB5A  |
+        
+    `|
+
+    Control <- _.FPGA
+    Control : |`md
+        | Señal | Pin    |
+        |-------|--------|
+        | CLK   | IOB34A |
+        | N_WR  | IOB34B |
+        | N_RD  | IOB38A |
+        | N_CS  | IOB38B |
+        |OE     | IOB17A |  
+    `|
+}
+
+
+Pulsadores(Internal Pull-up) -> FPGA
+Pulsadores(Internal Pull-up).shape : rectangle
+Pulsadores(Internal Pull-up): |`md
+
+    ### Pulsadores(Internal Pull-up)
+
+    |Señal|Pin|
+    |-|-|
+    |A|  IOB20B|
+    |B | IOB20A|
+    |START|  IOR27B|
+    |SELECT|  IOR27A|
+    |RIGHT|  IOR22B|
+    |UP|  IOR20B|
+    |DOWN|  IOR22A|
+    |LEFT_|  IOR20A|
+    
+    `|
+
+Flash SPI.shape : rectangle
+Flash SPI <-> FPGA
+Flash SPI : |`md
+    ### Flash SPI
+    |Señal|Pin|_|
+    |-|-|-|
+    |CLK |IOR34B|<-|
+    |N_CS(Pull-up)|IOR34A|<-|
+    |DI(Pull-up)|IOR33B|<-|
+    |DO(Pull-up)| IOR33A|->|
+`|
+
+GB Link.shape : rectangle
+GB Link <-> FPGA
+GB Link : |`md
+
+    ### GB Link
+
+    |Señal|Pin|-|
+    |-|-|-|
+    |Serial Out|IOL33B|<-|
+    |Serial In|IOL33A|->|
+    |CLK|IOL36B|<-|
+    |CLK_OE|IOL36A|<-|
+`|
+
+Control Volumen.shape : rectangle
+Control Volumen -> FPGA
+Control Volumen : |`md
+    ### Control Volumen
+    
+    |Señal|Pin|
+    |-|-|
+    |Subir|
+    |Bajar|
+    |Botón|
+`|
