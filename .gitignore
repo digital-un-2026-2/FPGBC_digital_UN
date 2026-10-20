@@ -1,2 +1,7 @@
 *backups/
 .venv/
+.pixi/
+build*/
+~F*
+.vscode/
+__pycache__/

@@ -1,0 +1,47 @@
+[workspace]
+name = "FPGBC-workspace"
+version = "0.1.0"
+description = "Entorno completo de FPGA y LiteX reproducible con Pixi"
+channels = ["conda-forge", "litex-hub"]
+platforms = ["linux-64"]
+
+
+
+[activation]
+scripts = ["scripts/setup_yowasp_link.sh"]
+#Tareas del proyecto (Reemplaza Makefiles o scripts sueltos)
+[tasks]
+test-EDA = "bash test/env/eda_test.sh"
+
+#build-soc = "python src/soc_target.py --build"
+#load-soc = "python src/soc_target.py --load"
+#sim = "python src/soc_target.py --sim"
+
+# Binarios Nativos y Compiladores (desde conda-forge y  litex-hub)
+[dependencies]
+python = "3.11.*"
+yosys = ">=0.7"
+
+# Programador y simulación
+openfpgaloader = ">=1.1.1"
+gtkwave = "*"
+#Toolchain RISC V
+binutils-riscv32-elf = "*"
+meson = ">=1.12.1,<2"
+ninja = ">=1.13.2,<2"
+
+#Paquetes de Python desde Git
+[pypi-dependencies]
+migen = { git = "https://github.com/m-labs/migen.git", branch = "master" }
+litex = { git = "https://github.com/enjoy-digital/litex.git", branch = "master" }
+litex-boards = { git = "https://github.com/litex-hub/litex-boards.git", branch = "master" }
+apycula = "*"
+yowasp-nextpnr-himbaechel-gowin = "*"
+
+# Cores del ecosistema LiteX
+litespi = { git = "https://github.com/litex-hub/litespi.git", branch = "master" }
+
+# Paquetes pythondata (CPU y librerías base para el firmware de LiteX)
+pythondata-software-picolibc = { git = "https://github.com/litex-hub/pythondata-software-picolibc.git", branch = "master" }
+pythondata-software-compiler_rt = { git = "https://github.com/litex-hub/pythondata-software-compiler_rt.git", branch = "master" }
+pythondata-cpu-vexriscv = { git = "https://github.com/litex-hub/pythondata-cpu-vexriscv.git", branch = "master" }
