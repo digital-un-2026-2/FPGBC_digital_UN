@@ -1,0 +1,25 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Sat May 23 19:30:36 2026
+[*]
+[dumpfile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/led_mem_TB.vcd"
+[dumpfile_mtime] "Sat May 23 19:30:05 2026"
+[dumpfile_size] 65636
+[savefile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/led_mem_sim.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*-18.000000 2 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] led_mem_TB.
+[sst_width] 278
+[signals_width] 126
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@22
+led_mem_TB.uut.address[5:0]
+@28
+led_mem_TB.uut.clk
+@22
+led_mem_TB.uut.data_r[23:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -1,0 +1,55 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Thu May 21 00:39:02 2026
+[*]
+[dumpfile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/lsr_wsled_TB.vcd"
+[dumpfile_mtime] "Thu May 21 00:37:42 2026"
+[dumpfile_size] 130039
+[savefile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/lsr_wsled_sim.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*-20.000000 2228000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] lsr_wsled_TB.
+[sst_width] 278
+[signals_width] 110
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@28
+lsr_wsled_TB.uut.clk
+@22
+lsr_wsled_TB.uut.in_A[23:0]
+@28
+lsr_wsled_TB.uut.load
+lsr_wsled_TB.uut.shift
+@c00023
+lsr_wsled_TB.uut.s_A[23:0]
+@28
+(0)lsr_wsled_TB.uut.s_A[23:0]
+(1)lsr_wsled_TB.uut.s_A[23:0]
+(2)lsr_wsled_TB.uut.s_A[23:0]
+(3)lsr_wsled_TB.uut.s_A[23:0]
+(4)lsr_wsled_TB.uut.s_A[23:0]
+(5)lsr_wsled_TB.uut.s_A[23:0]
+(6)lsr_wsled_TB.uut.s_A[23:0]
+(7)lsr_wsled_TB.uut.s_A[23:0]
+(8)lsr_wsled_TB.uut.s_A[23:0]
+(9)lsr_wsled_TB.uut.s_A[23:0]
+(10)lsr_wsled_TB.uut.s_A[23:0]
+(11)lsr_wsled_TB.uut.s_A[23:0]
+(12)lsr_wsled_TB.uut.s_A[23:0]
+(13)lsr_wsled_TB.uut.s_A[23:0]
+(14)lsr_wsled_TB.uut.s_A[23:0]
+(15)lsr_wsled_TB.uut.s_A[23:0]
+(16)lsr_wsled_TB.uut.s_A[23:0]
+(17)lsr_wsled_TB.uut.s_A[23:0]
+(18)lsr_wsled_TB.uut.s_A[23:0]
+(19)lsr_wsled_TB.uut.s_A[23:0]
+(20)lsr_wsled_TB.uut.s_A[23:0]
+(21)lsr_wsled_TB.uut.s_A[23:0]
+(22)lsr_wsled_TB.uut.s_A[23:0]
+(23)lsr_wsled_TB.uut.s_A[23:0]
+@1401201
+-group_end
+[pattern_trace] 1
+[pattern_trace] 0
