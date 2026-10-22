@@ -5,6 +5,11 @@ vars : {
            
     }
 }
+
+title : |md
+    #Bloques Conexiones
+|{near:top-center}
+
 EEPROM I2C <-> FPGA
 EEPROM I2C.shape : rectangle
 EEPROM I2C : |`md
@@ -137,11 +142,14 @@ GB Link : |`md
 Control Volumen.shape : rectangle
 Control Volumen -> FPGA
 Control Volumen : |`md
-    ### Control Volumen
+    ### Control Volumen(Internal Pull-up)
     
     |Señal|Pin|
     |-|-|
-    |Subir|
-    |Bajar|
-    |Botón|
+    |Subir|119|
+    |Botón|120|
+    |Bajar|121|
 `|{near:center-left}
+
+Audio.shape : rectangle
+Audio <- FPGA

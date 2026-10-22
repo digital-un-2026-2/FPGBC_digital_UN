@@ -37,7 +37,7 @@ cd FPGBC_digital_UN
 [ FPGBC_digital_UN]$ pixi run test-EDA
 ```
 
-## Diagrama de bloques
+## Diagrama de bloques | Conexiones
 ![bloques](/blocks/out.svg)
 
 ## Conexiones por integrado
