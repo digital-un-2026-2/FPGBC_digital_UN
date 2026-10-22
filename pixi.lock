@@ -37,6 +37,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/harfbuzz-14.6.0-ha770c72_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/hicolor-icon-theme-0.17-ha770c72_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/icu-78.3-py310h44b86e0_2.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/iverilog-12.0-ha738cfc_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/keyutils-1.6.3-h7cc23a3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/krb5-1.22.2-hbc21106_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ld_impl_linux-64-2.46.1-default_hbd61a6d_103.conda
@@ -138,7 +139,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/fonts-conda-forge-1-hc364b38_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/meson-1.12.1-pyh5ded981_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
-      - conda: https://conda.anaconda.org/litex-hub/linux-64/binutils-riscv32-elf-2.34-20220706_160221.tar.bz2
       - pypi: git+https://github.com/enjoy-digital/litex.git?branch=master#8e0e71c60135131ce7029e336b9a55081e0697ab
       - pypi: git+https://github.com/litex-hub/litespi.git?branch=master#1efda7b0ffe48068239e9a3b559d29c94c83fcf2
       - pypi: git+https://github.com/litex-hub/litex-boards.git?branch=master#14ca58f33663a1710c0244b4114c734c4b5b644e
@@ -585,6 +585,21 @@ packages:
     - icu >=78.3,<79.0a0
   size: 14459115
   timestamp: 1786545741408
+- conda: https://conda.anaconda.org/conda-forge/linux-64/iverilog-12.0-ha738cfc_1.conda
+  sha256: eff375a99f1a5157ef38db41bc41a6dbb243be38a096d4e99783d24fe871373e
+  md5: d5aa19208ede95a254db2e7dbfae0224
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=14
+  - libstdcxx >=14
+  - readline >=8.3,<9.0a0
+  - libzlib >=1.3.2,<2.0a0
+  license: GPL-2.0-only
+  license_family: GPL
+  purls: []
+  run_exports: {}
+  size: 2480547
+  timestamp: 1777218095519
 - conda: https://conda.anaconda.org/conda-forge/linux-64/keyutils-1.6.3-h7cc23a3_1.conda
   sha256: dd053c96dcb0dcfd59422aefea9d2fe937a190167f34fba7893ec1e10a7e8963
   md5: ba55d1b89fd7775e67de8291029b4059
@@ -2107,14 +2122,6 @@ packages:
   run_exports: {}
   size: 118849
   timestamp: 1784250406640
-- conda: https://conda.anaconda.org/litex-hub/linux-64/binutils-riscv32-elf-2.34-20220706_160221.tar.bz2
-  build_number: 20220706160221
-  md5: 51fe5f56785f5ecc877cd4a58d81c905
-  depends:
-  - libgcc-ng >=11.2.0
-  license: GPL
-  size: 9411960
-  timestamp: 1657123617796
 - pypi: git+https://github.com/enjoy-digital/litex.git?branch=master#8e0e71c60135131ce7029e336b9a55081e0697ab
   name: litex
   version: '2026.8'

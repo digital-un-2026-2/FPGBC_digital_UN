@@ -37,7 +37,7 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 36,VCC/VCCPLLL1,Power,None,VCC 1.0 V;
 73,VCC/VCCPLLL1,Power,None,VCC 1.0 V;
 108,VCC/VCCPLLL1,Power,None,VCC 1.0 V;
-127,VCCIO0,Power,None,VCC;
+127,VCCIO0,Power,None,VCC 2.5 V;
 109,VCCIO1,Power,None,VCC;
 5,VCCIO2/VCCIO7,Power,None,VCC 1.8 V;
 19,VCCIO2/VCCIO7,Power,None,VCC 1.8 V;
@@ -102,3 +102,7 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 94,IOR34A/MCS_N/D5,I/O,MCS_N/D5,N_CS SPI Pull up;
 95,IOR33B/MO/D6,I/O,MO/D6,DI SPI Pull up;
 96,IOR33A/MI/D7,I/O,MI/D7,DO SPI Pull Up;
+119,IOT38A,I/O,None,Volume + (Pull Up)
+120,IOT30B/GCLKC_1,I/O,None,Volume Button (Pull Up)
+121,IOT30A/GCLKT_1,I/O,None,Volume - (Pull Up)
+11,IOL27A/GCLKT_7,I/O,None, Clock 40MHz
