@@ -8,10 +8,13 @@ preview = ["pixi-build"]
 
 
 
-[activation]
-scripts = ["scripts/setup_env.sh"]
-#Tareas del proyecto (Reemplaza Makefiles o scripts sueltos)
+[activation.env]
+TOOLCHAIN_NAME="xpack-riscv-none-elf-gcc-15.2.0-1"
+TOOLCHAIN_DIR="$PIXI_PROJECT_ROOT/.toolchain/$TOOLCHAIN_NAME"
+PATH="$TOOLCHAIN_DIR/bin:$PATH"
+
 [tasks]
+setup-env = "bash scripts/setup_env.sh"
 test-EDA = "bash test/env/eda_test.sh"
 
 #build-soc = "python src/soc_target.py --build"

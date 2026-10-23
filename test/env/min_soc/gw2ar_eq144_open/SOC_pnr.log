@@ -1,0 +1,371 @@
+Info: Using uarch 'gowin' for device 'GW2AR-LV18EQ144PC8/I7'
+Info: constraining clock net 'clk' to 40.00 MHz
+
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:103, MUX2_LU7:106, MUX2_LUT6:160, MUX2_LUT5:507
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 259 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0x4011f709
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:       6/    384     1%
+Info: 	                LUT4:    6048/  20736    29%
+Info: 	            IOLOGICI:       0/    384     0%
+Info: 	            IOLOGICO:       0/    384     0%
+Info: 	           MUX2_LUT5:    2075/  10368    20%
+Info: 	           MUX2_LUT6:     784/   5184    15%
+Info: 	           MUX2_LUT7:     312/   2592    12%
+Info: 	           MUX2_LUT8:     103/   2592     3%
+Info: 	                 ALU:     360/  15552     2%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:    1612/  15552    10%
+Info: 	           RAM16SDP4:       0/    648     0%
+Info: 	               BSRAM:       4/     46     8%
+Info: 	              ALU54D:       0/     24     0%
+Info: 	     MULTADDALU18X18:       0/     24     0%
+Info: 	        MULTALU18X18:       0/     24     0%
+Info: 	        MULTALU36X18:       0/     24     0%
+Info: 	           MULT36X36:       0/     12     0%
+Info: 	           MULT18X18:       0/     48     0%
+Info: 	             MULT9X9:       0/     96     0%
+Info: 	              PADD18:       0/     48     0%
+Info: 	               PADD9:       0/     96     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       0/      2     0%
+Info: 	                BUFG:       0/     24     0%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 3799 cells, random placement wirelen = 196068.
+Info:     at initial placer iter 0, wirelen = 2283
+Info:     at initial placer iter 1, wirelen = 1945
+Info:     at initial placer iter 2, wirelen = 1786
+Info:     at initial placer iter 3, wirelen = 1820
+Info: Running main analytical placer, max placement attempts per cell = 15981031.
+Info:     at iteration #1, type ALL: wirelen solved = 1743, spread = 34332, legal = 86142; time = 2.76s
+Info:     at iteration #2, type ALL: wirelen solved = 3704, spread = 23266, legal = 66533; time = 2.09s
+Info:     at iteration #3, type ALL: wirelen solved = 6970, spread = 23036, legal = 69387; time = 1.89s
+Info:     at iteration #4, type ALL: wirelen solved = 9718, spread = 23026, legal = 56237; time = 1.84s
+Info:     at iteration #5, type ALL: wirelen solved = 9564, spread = 25363, legal = 51548; time = 2.92s
+Info:     at iteration #6, type ALL: wirelen solved = 10246, spread = 24940, legal = 51780; time = 3.21s
+Info:     at iteration #7, type ALL: wirelen solved = 10427, spread = 23525, legal = 54052; time = 2.67s
+Info:     at iteration #8, type ALL: wirelen solved = 11345, spread = 23275, legal = 54963; time = 3.19s
+Info:     at iteration #9, type ALL: wirelen solved = 12197, spread = 23170, legal = 56719; time = 3.68s
+Info:     at iteration #10, type ALL: wirelen solved = 13669, spread = 24997, legal = 57133; time = 3.51s
+Info: HeAP Placer Time: 29.46s
+Info:   of which solving equations: 3.37s
+Info:   of which spreading cells: 0.18s
+Info:   of which strict legalisation: 25.15s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 276, wirelen = 51548
+Info:   at iteration #5: temp = 0.000000, timing cost = 659, wirelen = 37528
+Info:   at iteration #10: temp = 0.000000, timing cost = 721, wirelen = 34238
+Info:   at iteration #15: temp = 0.000000, timing cost = 486, wirelen = 33428
+Info:   at iteration #20: temp = 0.000000, timing cost = 344, wirelen = 31899
+Info:   at iteration #25: temp = 0.000000, timing cost = 347, wirelen = 30757
+Info:   at iteration #30: temp = 0.000000, timing cost = 320, wirelen = 30410
+Info:   at iteration #32: temp = 0.000000, timing cost = 321, wirelen = 30363 
+Info: SA placement time 32.65s
+
+Info: Max frequency for clock 'CPU.clk': 62.72 MHz (PASS at 25.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 6 endpoint(s)
+Info:          + represents [1,6) endpoint(s)
+Info: [ 15795,  16994) |**+
+Info: [ 16994,  18193) |***+
+Info: [ 18193,  19392) |***********+
+Info: [ 19392,  20591) |*+
+Info: [ 20591,  21790) | 
+Info: [ 21790,  22989) | 
+Info: [ 22989,  24188) |+
+Info: [ 24188,  25387) |+
+Info: [ 25387,  26586) |*+
+Info: [ 26586,  27785) |******+
+Info: [ 27785,  28984) |*********************************+
+Info: [ 28984,  30183) |***********************************************************+
+Info: [ 30183,  31382) |************************************************************ 
+Info: [ 31382,  32581) |*************+
+Info: [ 32581,  33780) |+
+Info: [ 33780,  34979) |**+
+Info: [ 34979,  36178) |*****+
+Info: [ 36178,  37377) |***************+
+Info: [ 37377,  38576) |*******************+
+Info: [ 38576,  39775) |***************************+
+Info: Checksum: 0x7ef79063
+Info: Routing globals...
+Info:     'CPU.clk' net was routed using global resources only.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_1_F_LUT3_I2_F_LUT3_I2_3_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_1_F_LUT3_I2_3_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_1_F_LUT3_I2_2_F' is routed using segments.
+Info:     'CPU.aluShamt_DFFRE_Q_1_D_LUT3_F_I2[2]' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_2_F_LUT3_I2_2_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_2_F_LUT3_I2_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_2_F_LUT3_I2_F' is routed using segments.
+Info:     'RAM.MEM.0.1_DO_7_LUT3_I1_F[2]' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_1_F_LUT3_I2_F_LUT3_I2_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_3_F_LUT3_I2_F' is routed using segments.
+Info:     'CPU.Bimm[11]' is routed using segments.
+Info:     'CPU.aluShamt_DFFRE_Q_2_D_LUT3_F_I2_LUT4_I2_F_MUX2_LUT5_I1_O[0]' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_RESET_LUT4_I0_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_2_F_LUT3_I2_1_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_2_F_LUT3_I2_1_F' is routed using segments.
+Info:     'bin2bcd_dout[15]' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_1_F_LUT3_I2_1_F_LUT3_I2_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_3_F_LUT3_I2_2_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_3_F_LUT3_I2_1_F' is routed using segments.
+Info:     'CPU.aluShamt_DFFRE_Q_2_D_LUT3_F_I2_LUT4_I2_F_MUX2_LUT5_I1_O_LUT3_I2_F[0]' is routed using segments.
+Info:     'CPU.reset' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_1_F_LUT3_I2_2_F_LUT3_I2_2_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_1_F_LUT3_I2_1_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F[1]' is routed using segments.
+Info:     'CPU.aluShamt_DFFRE_Q_2_D_LUT3_F_I2_LUT4_I2_F_MUX2_LUT5_I1_O_LUT3_I2_F_MUX2_LUT5_O_S0[2]' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_3_F_LUT3_I2_3_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_F_LUT3_I2_2_F' is routed using segments.
+Info:     'CPU.mem_wmask_DFFR_Q_D_LUT4_F_I3_LUT4_I1_I0_LUT2_I1_F_LUT2_F_I1_LUT4_I3_F_LUT2_I1_F_LUT3_I2_1_F_LUT3_I2_F' is routed using segments.
+Info:     'CPU.instr_DFFRE_Q_20_D_LUT2_I1_F_LUT2_I1_F_MUX2_LUT5_I1_O' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 26378 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |       32        967 |   32   967 |     25507|       1.42       1.42|
+Info:       2000 |       47       1952 |   15   985 |     24534|       1.09       2.51|
+Info:       3000 |       93       2906 |   46   954 |     23609|       0.98       3.49|
+Info:       4000 |      145       3707 |   52   801 |     22704|       0.74       4.23|
+Info:       5000 |      159       3849 |   14   142 |     21723|       0.22       4.45|
+Info:       6000 |      167       4093 |    8   244 |     20733|       0.27       4.72|
+Info:       7000 |      172       4862 |    5   769 |     19741|       0.64       5.36|
+Info:       8000 |      175       5627 |    3   765 |     18744|       0.76       6.12|
+Info:       9000 |      177       6370 |    2   743 |     17746|       0.68       6.81|
+Info:      10000 |      184       7112 |    7   742 |     16754|       0.66       7.47|
+Info:      11000 |      195       7857 |   11   745 |     15767|       0.78       8.25|
+Info:      12000 |      206       8601 |   11   744 |     14780|       0.71       8.96|
+Info:      13000 |      222       9359 |   16   758 |     13804|       0.76       9.72|
+Info:      14000 |      233      10101 |   11   742 |     12818|       0.85      10.58|
+Info:      15000 |      254      10862 |   21   761 |     11865|       0.90      11.48|
+Info:      16000 |      269      11594 |   15   732 |     10884|       0.81      12.29|
+Info:      17000 |      310      12317 |   41   723 |      9956|       0.93      13.22|
+Info:      18000 |      346      13031 |   36   714 |      8998|       1.12      14.34|
+Info:      19000 |      381      13731 |   35   700 |      8041|       1.02      15.36|
+Info:      20000 |      428      14461 |   47   730 |      7114|       1.01      16.36|
+Info:      21000 |      494      15170 |   66   709 |      6217|       1.12      17.48|
+Info:      22000 |      565      15857 |   71   687 |      5312|       1.19      18.67|
+Info:      23000 |      618      16588 |   53   731 |      4427|       1.17      19.84|
+Info:      24000 |      719      17292 |  101   704 |      3594|       1.29      21.13|
+Info:      25000 |      845      17999 |  126   707 |      2859|       1.49      22.61|
+Info:      26000 |      991      18654 |  146   655 |      2095|       1.68      24.30|
+Info:      27000 |     1134      19318 |  143   664 |      1328|       1.38      25.68|
+Info:      28000 |     1277      20006 |  143   688 |       615|       1.51      27.19|
+Info:      28964 |     1454      20653 |  177   647 |         0|       1.84      29.03|
+Info: Routing complete.
+Info: Router1 time 29.03s
+Info: Checksum: 0x57e3f714
+
+Info: Critical path report for clock 'CPU.clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.23  0.23 Source CPU.rs1_DFFRE_Q_25.Q
+Info:    routing  0.74  0.97 Net CPU.aluIn1[6] (9,14) -> (10,20)
+Info:                          Sink mem_addr_LUT3_F_6_I2_ALU_SUM.I1
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:106.15-106.18
+Info:      logic  0.57  1.54 Source mem_addr_LUT3_F_6_I2_ALU_SUM.COUT
+Info:    routing  0.00  1.54 Net mem_addr_LUT3_F_6_I2_ALU_SUM_COUT (10,20) -> (10,20)
+Info:                          Sink mem_addr_LUT3_F_5_I2_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.58 Source mem_addr_LUT3_F_5_I2_ALU_SUM.COUT
+Info:    routing  0.00  1.58 Net mem_addr_LUT3_F_5_I2_ALU_SUM_COUT (10,20) -> (10,20)
+Info:                          Sink mem_addr_LUT3_F_4_I2_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.61 Source mem_addr_LUT3_F_4_I2_ALU_SUM.COUT
+Info:    routing  0.00  1.61 Net mem_addr_LUT3_F_4_I2_ALU_SUM_COUT (10,20) -> (10,20)
+Info:                          Sink mem_addr_LUT3_F_3_I2_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.64 Source mem_addr_LUT3_F_3_I2_ALU_SUM.COUT
+Info:    routing  0.00  1.64 Net mem_addr_LUT3_F_3_I2_ALU_SUM_COUT (10,20) -> (10,20)
+Info:                          Sink mem_addr_LUT3_F_2_I2_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.68 Source mem_addr_LUT3_F_2_I2_ALU_SUM.COUT
+Info:    routing  0.00  1.68 Net mem_addr_LUT3_F_2_I2_ALU_SUM_COUT (10,20) -> (11,20)
+Info:                          Sink mem_addr_LUT3_F_1_I2_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.72 Source mem_addr_LUT3_F_1_I2_ALU_SUM.COUT
+Info:    routing  0.00  1.72 Net mem_addr_LUT3_F_1_I2_ALU_SUM_COUT (11,20) -> (11,20)
+Info:                          Sink mem_addr_LUT3_F_I2_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.75 Source mem_addr_LUT3_F_I2_ALU_SUM.COUT
+Info:    routing  0.00  1.75 Net mem_addr_LUT3_F_I2_ALU_SUM_COUT (11,20) -> (11,20)
+Info:                          Sink mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.78 Source mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN.COUT
+Info:    routing  0.00  1.78 Net mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT (11,20) -> (11,20)
+Info:                          Sink mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.82 Source mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN.COUT
+Info:    routing  0.00  1.82 Net mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT (11,20) -> (11,20)
+Info:                          Sink mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.04  1.86 Source mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.COUT
+Info:    routing  0.00  1.86 Net mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT (11,20) -> (11,20)
+Info:                          Sink mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               cores/cpu/femtorv32_quark_un_irq.v:220.43-221.62
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.47  2.32 Source mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.SUM
+Info:    routing  0.62  2.94 Net mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM[4] (11,20) -> (11,16)
+Info:                          Sink mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_MUX2_LUT5_S0.S0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.10  3.04 Source mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_MUX2_LUT5_S0.O
+Info:    routing  0.00  3.04 Net mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_MUX2_LUT5_S0_O (11,16) -> (11,16)
+Info:                          Sink mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_MUX2_LUT5_S0_O_MUX2_LUT6_I0.I0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:157.9-157.11
+Info:      logic  0.27  3.31 Source mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_MUX2_LUT5_S0_O_MUX2_LUT6_I0.O
+Info:    routing  0.71  4.02 Net mem_addr_LUT3_F_I2_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_MUX2_LUT5_S0_O_MUX2_LUT6_I0_O[6] (11,16) -> (12,19)
+Info:                          Sink RAM.MEM.0.3_DO_LUT3_I1_F_MUX2_LUT8_O_1_I0_MUX2_LUT7_O.S0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.10  4.13 Source RAM.MEM.0.3_DO_LUT3_I1_F_MUX2_LUT8_O_1_I0_MUX2_LUT7_O.O
+Info:    routing  0.00  4.13 Net RAM.MEM.0.3_DO_LUT3_I1_F_MUX2_LUT8_O_1_I0 (12,19) -> (11,19)
+Info:                          Sink RAM.MEM.0.3_DO_LUT3_I1_F_MUX2_LUT8_O_1.I0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:169.9-169.11
+Info:      logic  0.27  4.39 Source RAM.MEM.0.3_DO_LUT3_I1_F_MUX2_LUT8_O_1.O
+Info:    routing  0.88  5.27 Net CPU.rs2_DFFRE_Q_10_D_MUX2_LUT8_O_S0[1] (11,19) -> (15,16)
+Info:                          Sink RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0_MUX2_LUT5_O.S0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.10  5.38 Source RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0_MUX2_LUT5_O.O
+Info:    routing  0.00  5.38 Net RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0 (15,16) -> (15,16)
+Info:                          Sink RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O_I1_MUX2_LUT6_O.I0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:165.42-165.67
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:157.9-157.11
+Info:      logic  0.27  5.64 Source RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O_I1_MUX2_LUT6_O.O
+Info:    routing  0.00  5.64 Net RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O_I1 (15,16) -> (15,16)
+Info:                          Sink RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O.I1
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:163.13-163.15
+Info:      logic  0.27  5.91 Source RAM.MEM.0.2_DO_DFF_Q_D_LUT2_I0_F_MUX2_LUT5_I0_O_MUX2_LUT6_I0_O_MUX2_LUT7_O.O
+Info:    routing  1.58  7.49 Net CPU.rs1_DFFRE_Q_10_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O_S0[2] (15,16) -> (5,30)
+Info:                          Sink CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O_I0_MUX2_LUT5_O_I0_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.46  7.96 Source CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O_I0_MUX2_LUT5_O_I0_LUT4_F.F
+Info:    routing  0.00  7.96 Net CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O_I0_MUX2_LUT5_O_I0 (5,30) -> (5,30)
+Info:                          Sink CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O_I0_MUX2_LUT5_O.I0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:158.41-158.66
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:151.9-151.11
+Info:      logic  0.27  8.22 Source CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O_I0_MUX2_LUT5_O.O
+Info:    routing  0.00  8.22 Net CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O_I0 (5,30) -> (5,30)
+Info:                          Sink CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O.I0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:157.9-157.11
+Info:      logic  0.27  8.49 Source CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0_MUX2_LUT6_O.O
+Info:    routing  0.81  9.30 Net CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O_S0[4] (5,30) -> (5,30)
+Info:                          Sink CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O.S0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.10  9.41 Source CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3_MUX2_LUT5_O.O
+Info:    routing  1.14  10.55 Net CPU.rs1_DFFRE_Q_30_D_LUT4_F_I3[3] (5,30) -> (9,24)
+Info:                          Sink CPU.rs1_DFFRE_Q_30_D_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.37  10.92 Source CPU.rs1_DFFRE_Q_30_D_LUT4_F.F
+Info:    routing  0.00  10.92 Net CPU.rs1_DFFRE_Q_30_D (9,24) -> (9,24)
+Info:                          Sink CPU.rs1_DFFRE_Q_30.D
+Info:      setup  0.04  10.96 Source CPU.rs1_DFFRE_Q_30.D
+Info: 4.47 ns logic, 6.48 ns routing
+
+Info: Max frequency for clock 'CPU.clk': 91.27 MHz (PASS at 25.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 16552,  17705) |*********+
+Info: [ 17705,  18858) |*************************************+
+Info: [ 18858,  20011) |*****+
+Info: [ 20011,  21164) | 
+Info: [ 21164,  22317) | 
+Info: [ 22317,  23470) | 
+Info: [ 23470,  24623) | 
+Info: [ 24623,  25776) | 
+Info: [ 25776,  26929) | 
+Info: [ 26929,  28082) | 
+Info: [ 28082,  29235) |*+
+Info: [ 29235,  30388) |******************+
+Info: [ 30388,  31541) | 
+Info: [ 31541,  32694) |+
+Info: [ 32694,  33847) |+
+Info: [ 33847,  35000) |+
+Info: [ 35000,  36153) |***********************+
+Info: [ 36153,  37306) |*****************************************+
+Info: [ 37306,  38459) |************************************************************ 
+Info: [ 38459,  39612) |************************************************+
+
+Info: Program finished normally.

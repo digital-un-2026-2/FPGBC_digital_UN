@@ -5,6 +5,5 @@ build*/
 ~F*
 .vscode/
 __pycache__/
-test/env/min_soc/
 .toolchain/
 eda_test.log

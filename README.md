@@ -10,7 +10,7 @@ Para el proyecto se utilizan las siguientes herramientas
 - [openFPGALoader](https://github.com/trabucayre/openFPGALoader)
 - [LiteX](https://github.com/enjoy-digital/litex/)
 - [gtkwave](https://github.com/gtkwave/gtkwave)
-- [RISC-V GNU Compiler Toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain)
+- [RISC-V GNU Compiler Toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain) via [xPack GNU RISC-V Embedded GCC](https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack)
 
 ## Instalación de Herramientas
 Para facilitar la instalación y evitar problemas asociados a rutas y dependencias se utiliza [Pixi](https://pixi.prefix.dev/v0.82.0/)
@@ -31,13 +31,34 @@ cd FPGBC_digital_UN
 ```bash
 [ FPGBC_digital_UN]$ pixi install
 ```
-
-4. Probar que se han instalado las herramientas(ser paciente)
+4. Configurar el entorno, se descarga el RISC-V toolchain y se pide **autorización** para agregar las reglas udev para acceder al usb
+```bash
+[ FPGBC_digital_UN]$ pixi run setup-env
+```
+5. Probar que se han instalado las herramientas, se ejecuta un ejemplo de LiteX que conlleva compilación de software, síntesis de hardware y intenta subir a una tarjeta 
 ```bash
 [ FPGBC_digital_UN]$ pixi run test-EDA
 ```
 
-## Diagrama de bloques | Conexiones
+## Prueba de SoC mínimo
+1. Verificar conexiones físicas
+```
+--cable ft232RL --pins TXD:CTS:DTR:RXD
+                --fpga TDI:TDO:TCK:TMS
+```
+2. Usar el la orden
+```bash
+[ FPGBC_digital_UN]$ pixi run make -C test/env/min_soc <comando>
+```
+Con los comandos presentes en el Makefile:
+ - sim_irq
+ - build_gw2ar_eq144
+ - configure_gw2ar_eq144
+ - test_gowin
+ - detect
+ - configure_test
+
+## Diagrama de bloques | Conexiones general
 ![bloques](/blocks/out.svg)
 
 ## Conexiones por integrado

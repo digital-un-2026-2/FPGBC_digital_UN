@@ -1,0 +1,209 @@
+Info: Using uarch 'gowin' for device 'GW2AR-LV18EQ144PC8/I7'
+Info: constraining clock net 'clk' to 40.00 MHz
+
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:1, MUX2_LUT6:1, MUX2_LUT5:2
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 2 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0x6590ef8d
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:       3/    384     0%
+Info: 	                LUT4:      47/  20736     0%
+Info: 	            IOLOGICI:       0/    384     0%
+Info: 	            IOLOGICO:       0/    384     0%
+Info: 	           MUX2_LUT5:       8/  10368     0%
+Info: 	           MUX2_LUT6:       3/   5184     0%
+Info: 	           MUX2_LUT7:       1/   2592     0%
+Info: 	           MUX2_LUT8:       0/   2592     0%
+Info: 	                 ALU:      24/  15552     0%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:      24/  15552     0%
+Info: 	           RAM16SDP4:       0/    648     0%
+Info: 	               BSRAM:       0/     46     0%
+Info: 	              ALU54D:       0/     24     0%
+Info: 	     MULTADDALU18X18:       0/     24     0%
+Info: 	        MULTALU18X18:       0/     24     0%
+Info: 	        MULTALU36X18:       0/     24     0%
+Info: 	           MULT36X36:       0/     12     0%
+Info: 	           MULT18X18:       0/     48     0%
+Info: 	             MULT9X9:       0/     96     0%
+Info: 	              PADD18:       0/     48     0%
+Info: 	               PADD9:       0/     96     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       0/      2     0%
+Info: 	                BUFG:       0/     24     0%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 34 cells, random placement wirelen = 2717.
+Info:     at initial placer iter 0, wirelen = 165
+Info:     at initial placer iter 1, wirelen = 201
+Info:     at initial placer iter 2, wirelen = 193
+Info:     at initial placer iter 3, wirelen = 196
+Info: Running main analytical placer, max placement attempts per cell = 10000.
+Info:     at iteration #1, type ALL: wirelen solved = 191, spread = 257, legal = 298; time = 0.01s
+Info:     at iteration #2, type ALL: wirelen solved = 177, spread = 230, legal = 250; time = 0.00s
+Info:     at iteration #3, type ALL: wirelen solved = 163, spread = 227, legal = 300; time = 0.00s
+Info:     at iteration #4, type ALL: wirelen solved = 164, spread = 219, legal = 272; time = 0.00s
+Info:     at iteration #5, type ALL: wirelen solved = 173, spread = 225, legal = 240; time = 0.00s
+Info:     at iteration #6, type ALL: wirelen solved = 167, spread = 219, legal = 260; time = 0.00s
+Info:     at iteration #7, type ALL: wirelen solved = 165, spread = 201, legal = 283; time = 0.00s
+Info:     at iteration #8, type ALL: wirelen solved = 169, spread = 222, legal = 224; time = 0.00s
+Info:     at iteration #9, type ALL: wirelen solved = 177, spread = 242, legal = 222; time = 0.00s
+Info:     at iteration #10, type ALL: wirelen solved = 177, spread = 241, legal = 236; time = 0.00s
+Info:     at iteration #11, type ALL: wirelen solved = 180, spread = 232, legal = 262; time = 0.00s
+Info:     at iteration #12, type ALL: wirelen solved = 175, spread = 242, legal = 224; time = 0.00s
+Info:     at iteration #13, type ALL: wirelen solved = 175, spread = 241, legal = 224; time = 0.00s
+Info:     at iteration #14, type ALL: wirelen solved = 180, spread = 241, legal = 266; time = 0.00s
+Info: HeAP Placer Time: 0.28s
+Info:   of which solving equations: 0.02s
+Info:   of which spreading cells: 0.02s
+Info:   of which strict legalisation: 0.00s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 4, wirelen = 222
+Info:   at iteration #5: temp = 0.000000, timing cost = 5, wirelen = 201
+Info:   at iteration #5: temp = 0.000000, timing cost = 5, wirelen = 203 
+Info: SA placement time 0.01s
+
+Info: Max frequency for clock 'clk_IBUF_I_O': 340.02 MHz (PASS at 40.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 22059,  22141) |** 
+Info: [ 22141,  22223) | 
+Info: [ 22223,  22305) |**** 
+Info: [ 22305,  22387) |* 
+Info: [ 22387,  22469) |********** 
+Info: [ 22469,  22551) | 
+Info: [ 22551,  22633) | 
+Info: [ 22633,  22715) |******* 
+Info: [ 22715,  22797) | 
+Info: [ 22797,  22879) | 
+Info: [ 22879,  22961) |* 
+Info: [ 22961,  23043) |*** 
+Info: [ 23043,  23125) |** 
+Info: [ 23125,  23207) |*** 
+Info: [ 23207,  23289) |** 
+Info: [ 23289,  23371) |** 
+Info: [ 23371,  23453) |*** 
+Info: [ 23453,  23535) |** 
+Info: [ 23535,  23617) |* 
+Info: [ 23617,  23699) |*** 
+Info: Checksum: 0x687deec4
+Info: Routing globals...
+Info:     'clk_IBUF_I_O' net was routed using global resources only.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 193 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:        196 |        3        146 |    3   146 |         0|       0.05       0.05|
+Info: Routing complete.
+Info: Router1 time 0.05s
+Info: Checksum: 0xc86a23e5
+
+Info: Critical path report for clock 'clk_IBUF_I_O' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.23  0.23 Source tick_DFFR_Q_18.Q
+Info:    routing  0.40  0.63 Net rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_S0[3] (1,20) -> (2,21)
+Info:                          Sink rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0_MUX2_LUT5_O_I0_LUT4_F.I3
+Info:                          Defined in:
+Info:                               test.v:7.29-7.33
+Info:      logic  0.37  1.00 Source rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0_MUX2_LUT5_O_I0_LUT4_F.F
+Info:    routing  0.00  1.00 Net rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0_MUX2_LUT5_O_I0 (2,21) -> (2,21)
+Info:                          Sink rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0_MUX2_LUT5_O.I0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:165.42-165.67
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:158.41-158.66
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:151.9-151.11
+Info:      logic  0.27  1.27 Source rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0_MUX2_LUT5_O.O
+Info:    routing  0.00  1.27 Net rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O_I0 (2,21) -> (2,21)
+Info:                          Sink rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O.I0
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:165.42-165.67
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:157.9-157.11
+Info:      logic  0.27  1.54 Source rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1_MUX2_LUT6_O.O
+Info:    routing  0.00  1.54 Net rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O_I1 (2,21) -> (2,21)
+Info:                          Sink rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O.I1
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:163.13-163.15
+Info:      logic  0.27  1.81 Source rst_n_IBUF_I_O_LUT4_I0_I3_MUX2_LUT7_O.O
+Info:    routing  0.38  2.19 Net rst_n_IBUF_I_O_LUT4_I0_I3[3] (2,21) -> (2,19)
+Info:                          Sink tx_OBUF_O_I_DFFRE_Q_CE_MUX2_LUT5_O_I1_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.37  2.56 Source tx_OBUF_O_I_DFFRE_Q_CE_MUX2_LUT5_O_I1_LUT4_F.F
+Info:    routing  0.00  2.56 Net tx_OBUF_O_I_DFFRE_Q_CE_MUX2_LUT5_O_I1 (2,19) -> (2,19)
+Info:                          Sink tx_OBUF_O_I_DFFRE_Q_CE_MUX2_LUT5_O.I1
+Info:                          Defined in:
+Info:                               /home/samuel/Repositories/FPGBC_digital_UN/.pixi/envs/default/bin/../share/yosys/gowin/cells_map.v:151.13-151.15
+Info:      logic  0.27  2.83 Source tx_OBUF_O_I_DFFRE_Q_CE_MUX2_LUT5_O.O
+Info:    routing  0.38  3.20 Net tx_OBUF_O_I_DFFRE_Q_CE (2,19) -> (1,19)
+Info:                          Sink tx_OBUF_O_I_DFFRE_Q.CE
+Info:      setup  0.04  3.24 Source tx_OBUF_O_I_DFFRE_Q.CE
+Info: 2.08 ns logic, 1.16 ns routing
+
+Info: Max frequency for clock 'clk_IBUF_I_O': 308.64 MHz (PASS at 40.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 21760,  21849) |* 
+Info: [ 21849,  21938) |** 
+Info: [ 21938,  22027) |************** 
+Info: [ 22027,  22116) | 
+Info: [ 22116,  22205) |******* 
+Info: [ 22205,  22294) | 
+Info: [ 22294,  22383) | 
+Info: [ 22383,  22472) | 
+Info: [ 22472,  22561) | 
+Info: [ 22561,  22650) | 
+Info: [ 22650,  22739) |* 
+Info: [ 22739,  22828) | 
+Info: [ 22828,  22917) |* 
+Info: [ 22917,  23006) |* 
+Info: [ 23006,  23095) |* 
+Info: [ 23095,  23184) |** 
+Info: [ 23184,  23273) |*** 
+Info: [ 23273,  23362) |* 
+Info: [ 23362,  23451) |* 
+Info: [ 23451,  23540) |*** 
+
+Info: Program finished normally.

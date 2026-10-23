@@ -1,0 +1,38 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Thu May 21 12:28:02 2026
+[*]
+[dumpfile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/ws2812_led_TB.vcd"
+[dumpfile_mtime] "Thu May 21 12:26:54 2026"
+[dumpfile_size] 223253
+[savefile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/ws2812_led_sim.gtkw"
+[timestart] 0
+[size] 1648 951
+[pos] -325 -176
+*-25.000000 740000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ws2812_led_TB.
+[treeopen] ws2812_led_TB.uut.
+[treeopen] ws2812_led_TB.uut.ws28120.
+[sst_width] 278
+[signals_width] 134
+[sst_expanded] 1
+[sst_vpaned_height] 496
+@28
+ws2812_led_TB.uut.clk
+ws2812_led_TB.uut.reset
+@22
+ws2812_led_TB.uut.rgb[23:0]
+@28
+ws2812_led_TB.uut.init
+ws2812_led_TB.uut.init_t
+ws2812_led_TB.uut.ws28120.sel[1:0]
+ws2812_led_TB.uut.dout
+@22
+ws2812_led_TB.uut.lsr0.s_A[23:0]
+@28
+ws2812_led_TB.uut.done
+ws2812_led_TB.uut.lsr0.load
+@25
+ws2812_led_TB.uut.ws28120.count0.cnt_out[10:0]
+[pattern_trace] 1
+[pattern_trace] 0

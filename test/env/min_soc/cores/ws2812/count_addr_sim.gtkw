@@ -1,0 +1,26 @@
+[*]
+[*] GTKWave Analyzer v3.3.121 (w)1999-2024 BSI
+[*] Sat May 23 19:47:59 2026
+[*]
+[dumpfile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/count_addr_TB.vcd"
+[dumpfile_mtime] "Sat May 23 19:47:25 2026"
+[dumpfile_size] 73860
+[savefile] "/Work/Embedded/digital_UN/basic_circuits/test_peripherals/rtl/cores/test/ws2812/count_addr_sim.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*-20.000000 2626000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] count_addr_TB.
+[sst_width] 278
+[signals_width] 126
+[sst_expanded] 1
+[sst_vpaned_height] 157
+@28
+count_addr_TB.uut.clk
+count_addr_TB.uut.rst
+@29
+count_addr_TB.uut.inc
+@22
+count_addr_TB.uut.address[5:0]
+[pattern_trace] 1
+[pattern_trace] 0

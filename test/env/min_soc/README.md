@@ -1,0 +1,1 @@
+# Obtenido de https://github.com/cicamargoba/digital_UN/tree/main/basic_circuits/test_peripherals/rtl - Commit: 464318d
