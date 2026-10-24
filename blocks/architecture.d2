@@ -1,0 +1,41 @@
+vars : {
+    d2-config : {
+        layout-engine : elk
+        theme-id : 1  
+    }
+}
+
+FPGA.Whisbone : {
+    width : 500
+}
+FPGA.Pantalla "PHY" -> Pantalla  
+
+FPGA : {
+RISC-V CPU <-> Whisbone
+PPU <-> Whisbone
+Pantalla "PHY" <- PPU
+
+Whisbone <-> SRAM Ctrl
+SRAM Ctrl <-> SRAM Interna
+Whisbone <-> Cartucho Ctrl
+
+Whisbone <-> APU
+
+Whisbone <-> Puente CSR
+Puente CSR -> PWM
+Puente CSR <-> I2C
+Puente CSR <-> GPIO
+Puente CSR <-> UART/SPI
+}
+
+FPGA.Cartucho Ctrl <-> Cartucho Flash \& FRAM
+
+FPGA.PWM -> Audífonos
+FPGA.PWM -> Amplificador
+
+FPGA.I2C <-> EEPROM
+
+FPGA.GPIO <-> Botones
+FPGA.GPIO <-> Botones Volumen
+
+FPGA.UART/SPI <-> GB Link

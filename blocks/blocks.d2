@@ -7,7 +7,7 @@ vars : {
 }
 
 title : |md
-    #Bloques Conexiones
+    # Bloques General
 |{near:top-center}
 
 EEPROM I2C <-> FPGA
@@ -63,10 +63,10 @@ Cartucho : {
         | A11   | 79 |
         | A12   | 80 |
         | A13   | 82 |
-        | A14   | 84 |
+        | A14   | 83 |
         | A15   | 84 |
     `|
-    Datos <-> _.FPGA
+
     Datos : |`md
         | Señal | Pin    |
         |-------|--------|
@@ -89,9 +89,19 @@ Cartucho : {
         | N_WR  | 61 |
         | N_RD  | 62 |
         | N_CS  | 63 |
-        |OE     | 48 |  
     `|
 }
+
+BufferData <-> Cartucho.Datos
+FPGA <-> BufferData
+BufferData.shape : rectangle
+BufferData : |`md
+    ### Buffer
+    |Señal|Pin|
+    |-|-|
+    |#OE|  |
+    |DIR|  |
+`|
 
 
 Pulsadores(Internal Pull-up) -> FPGA

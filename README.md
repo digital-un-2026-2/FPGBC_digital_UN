@@ -2,6 +2,22 @@
 
 Repositorio principal para la ingeniería inversa de la [FPGBC](https://funnyplaying.com/products/fpgbc-kit) y el desarrollo propio en hardware y software.
 
+## Arquitectura propuesta
+Se propone una arquitectura inspirada fuertemente por la consola [RISCBoy](https://github.com/Wren6991/RISCBoy) desarrollada por Luke Wren adaptada a herramientas diferentes y lo visto en el curso.
+
+![arquitectura_bloques](blocks/out_arc.svg)
+
+## Diagrama de bloques | Conexiones general
+![bloques](/blocks/out.svg)
+
+### Conexiones por integrado
+#### FPGA
+#### Memoria Flash
+#### Memoria EEPROM
+#### MCU
+#### Convertidores de nivel
+#### Amplificador de audio
+
 ## Herramientas
 Para el proyecto se utilizan las siguientes herramientas
 - [Yosys](https://github.com/YosysHQ/yosys)
@@ -58,14 +74,6 @@ Con los comandos presentes en el Makefile:
  - detect
  - configure_test
 
-## Diagrama de bloques | Conexiones general
-![bloques](/blocks/out.svg)
 
-## Conexiones por integrado
-### FPGA
-### Memoria Flash
-### Memoria EEPROM
-### MCU
-### Convertidores de nivel
-### Amplificador de audio
+
 
