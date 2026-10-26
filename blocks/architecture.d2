@@ -3,6 +3,26 @@ vars : {
         layout-engine : elk
         theme-id : 1  
     }
+    d2-legend : "Codigo de Color" {
+        a : Equipo EEPROM {
+            style.fill : "#7ED7C1"
+        }
+        b : Equipo Red {
+            style.fill : "#9195F6"
+        }
+        c : Equipo Pantalla {
+            style.fill : "#BA5A5A"
+        }
+        d : Equipo Sonido {
+            style.fill : "#FF933E"
+        }
+        e : Equipo Cartucho {
+            style.fill : "#44ACFF"
+        }
+        f : Equipo SoC {
+            style.fill : "#FF96AD"
+        }
+    }
 }
 
 FPGA.Whisbone : {
@@ -10,13 +30,40 @@ FPGA.Whisbone : {
 }
 FPGA.Pantalla "PHY" -> Pantalla  
 
+
+
 FPGA : {
+
+APU.style.fill : "#FF933E"
+PWM.style.fill : "#FF933E"
+_.Amplificador.style.fill : "#FF933E"
+
+Cartucho Ctrl.style.fill : "#44ACFF"
+_.Cartucho Flash \& FRAM.style.fill : "#44ACFF"
+
+PPU.style.fill : "#BA5A5A"
+Pantalla "PHY".style.fill : "#BA5A5A"
+
+UART/SPI.style.fill : "#9195F6"
+_.GB Link/Red.style.fill : "#9195F6"
+
+I2C.style.fill : "#7ED7C1"
+_.EEPROM.style.fill : "#7ED7C1"
+
+RISC-V CPU.style.fill : "#FF96AD"
+PSRAM Ctrl.style.fill : "#FF96AD"
+PSRAM Interna.style.fill : "#FF96AD"
+Puente CSR.style.fill : "#97D7FF"
+GPIO.style.fill : "#FF96AD"
+Whisbone.style.fill : "#F8EADC"
+
+
 RISC-V CPU <-> Whisbone
 PPU <-> Whisbone
 Pantalla "PHY" <- PPU
 
-Whisbone <-> SRAM Ctrl
-SRAM Ctrl <-> SRAM Interna
+Whisbone <-> PSRAM Ctrl
+PSRAM Ctrl <-> PSRAM Interna
 Whisbone <-> Cartucho Ctrl
 
 Whisbone <-> APU
@@ -24,7 +71,7 @@ Whisbone <-> APU
 Whisbone <-> Puente CSR
 Puente CSR -> PWM
 Puente CSR <-> I2C
-Puente CSR <-> GPIO
+Puente CSR <- GPIO
 Puente CSR <-> UART/SPI
 }
 
@@ -38,4 +85,4 @@ FPGA.I2C <-> EEPROM
 FPGA.GPIO <-> Botones
 FPGA.GPIO <-> Botones Volumen
 
-FPGA.UART/SPI <-> GB Link
+FPGA.UART/SPI <-> GB Link/Red
