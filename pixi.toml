@@ -45,7 +45,6 @@ yowasp-nextpnr-himbaechel-gowin = "*"
 
 # Cores del ecosistema LiteX
 litespi = { git = "https://github.com/litex-hub/litespi.git", branch = "master" }
-
 # Paquetes pythondata (CPU y librerías base para el firmware de LiteX)
 pythondata-software-picolibc = { git = "https://github.com/litex-hub/pythondata-software-picolibc.git", branch = "master" }
 pythondata-software-compiler_rt = { git = "https://github.com/litex-hub/pythondata-software-compiler_rt.git", branch = "master" }

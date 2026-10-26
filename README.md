@@ -7,13 +7,29 @@ Se propone una arquitectura inspirada fuertemente por la consola [RISCBoy](https
 
 ![arquitectura_bloques](blocks/out_arc.svg)
 
+## Memoria disponible
+### Gowin GW2AR-18
+Las FPGAs GW2AR corresponden a la serie Arora II de Gowin, y son la variante con memoria RAM integrada.
+
+En su [datasheet](https://cdn.gowinsemi.com.cn/DS226E.pdf) indica que para la referencia EQ144P se tiene memoria PSRAM de 64 Mbits de capacidad con largo de 16 bits, Gowin ofrece un [modulo IP](https://cdn.gowinsemi.com.cn/IPUG525E.pdf) para el control y acceso a esta memoria
+
+Además dispone de 828Kbits de BSRAM repartidos en 46 bloques/celdas de [18Kbits](https://cdn.gowinsemi.com.cn/UG285E.pdf) que pueden ser usados en diferentes modos.
+
+### [Cartucho](https://github.com/digital-un-2026-2/FPGBC_cartucho)
+Según lo encontrado por el Equipo Cartucho se dispone de 8MB en Flash ROM y 128KB en FRAM a los que se accede mediante un Memory Bank Controller.
+
+### [Memoria EEPROM](https://github.com/digital-un-2026-2/FPGBC_eeprom)
+Según lo encontrado por el Equipo EEPROM esta memoria tiene una capacidad de 4Kbits con interfaz I2C.
+
+Así, se identifica que la FPGA es quien tiene más memoria, sin embargo, esta no permite almacenamiento permanente que es critico para el almacenamiento de los datos de un juego, por lo tanto esta memoria tiene como propósito el procesamiento interno de imagen, audio y software. Por otro lado la memoria disponible en el cartucho tiene como propósito almacenar el juego, su código y recursos, además de ofrecer memoria RAM extra para las consolas antiguas. Y la memoria EEPROM podria ser util para el almacenamiento de datos no relacionados a los juegos si no al sistema de la consola.
+
 ## Diagrama de bloques | Conexiones general
 ![bloques](/blocks/out.svg)
 
 ### Conexiones por integrado
 #### FPGA
 #### Memoria Flash
-#### Memoria EEPROM
+#### [Memoria EEPROM](https://github.com/digital-un-2026-2/FPGBC_eeprom)
 #### MCU
 #### Convertidores de nivel
 #### Amplificador de audio
