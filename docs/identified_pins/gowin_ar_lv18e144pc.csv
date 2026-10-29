@@ -45,7 +45,7 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 91,VCCIO3,Power,None,VCC;
 77,VCCIO3,Power,None,VCC;
 37,VCCIO5,Power,None,VCC;
-8,VCCPLL0,Power,None,VCC;
+8,VCCPLLL0,Power,None,VCC 1.0;
 104,VCCPLLR0,Power,None,VCC 1.0 V;
 81,VCCPLLR1,Power,None,VCC 1.0 V;
 31,VCCX/VCCIO4/VCCIO6,Power,None,VCC 3.3 V;

@@ -7,7 +7,7 @@ vars : {
 }
 
 title : |md
-    # Bloques General
+    # Conexiones General
 |{near:top-center}
 
 EEPROM I2C <-> FPGA
@@ -16,8 +16,8 @@ EEPROM I2C : |`md
     ### EEPROM I2C
     |Señal|Pin|_|
     |-|-|-|
-    |SCL | 24 |<-| 
-    |SDA | 23 |<->|
+    |SCL(Pull Up) | 24 |<-| 
+    |SDA(Pull Up) | 23 |<->|
 `|
 
 LCD MIPI.shape:rectangle
@@ -131,8 +131,8 @@ Flash SPI : |`md
     |-|-|-|
     |CLK | 93 |<-|
     |N_CS(Pull-up)| 94 |<-|
-    |DI(Pull-up)| 95 |<-|
-    |DO(Pull-up)| 96 |->|
+    |MOSI(Pull-up)| 95 |<-|
+    |MISO(Pull-up)| 96 |->|
 `|
 
 GB Link.shape : rectangle
@@ -163,3 +163,14 @@ Control Volumen : |`md
 
 Audio.shape : rectangle
 Audio <- FPGA
+
+Cristal 40MHz.shape : rectangle
+Cristal 40MHz -> FPGA
+Cristal 40MHz : |`md
+
+    ### Reloj
+    |Señal|Pin|
+    |-|-|
+    |Cristal 40MHz|11|
+
+`|
