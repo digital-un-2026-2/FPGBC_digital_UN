@@ -33,7 +33,7 @@ if [ -f "$BITSTREAM_FILE" ] && grep -qi "openFPGALoader" "$LOG_FILE"; then
     echo "- Invocación del programador: OK (openFPGALoader intentó cargar el bitstream)."
     echo ""
     echo "El entorno EDA y LiteX están correctamente integrados."
-    rm -rf "$BUILD_DIR" "$LOG_FILE"
+    # rm -rf "$BUILD_DIR" "$LOG_FILE"
     exit 0
 else
     echo -e "\033[0;31m[TEST FALLIDO]\033[0m"
