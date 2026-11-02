@@ -25,6 +25,9 @@ else
     echo "✅ Toolchain instalado en $TOOLCHAIN_DIR"
 fi
 
+echo "Añadiendo activador de entorno en ~/.bashrc"
+echo "alias FPGBC_workspace_activate='eval \"\$(pixi shell-hook --manifest-path $PIXI_WORKSPACE_ROOT/pixi.toml)\"'" | tee --append ~/.bashrc
 
+echo "Añadiendo reglas udev"
 echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6001", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/70-ft232-fpga.rules
 sudo udevadm control --reload-rules

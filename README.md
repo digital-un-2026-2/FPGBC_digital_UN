@@ -2,6 +2,16 @@
 
 Repositorio principal para la ingeniería inversa de la [FPGBC](https://funnyplaying.com/products/fpgbc-kit) y el desarrollo propio en hardware y software.
 
+<details>
+<summary><h2>Contenido</h2></summary>
+
+- [Arquitectura Propuesta](#arquitectura-propuesta)
+- [Diagrama de conexiones general](#conexiones-general)
+- [Herramientas](#herramientas)
+    - [Instalación de herramientas](#instalación-de-herramientas)
+    - [Uso de herramientas](#uso-de-las-herramientas)
+</details>
+
 ## Arquitectura propuesta
 Se propone una arquitectura inspirada fuertemente por la consola [RISCBoy](https://github.com/Wren6991/RISCBoy) desarrollada por Luke Wren adaptada a herramientas diferentes y lo visto en el curso.
 
@@ -22,7 +32,10 @@ Según lo encontrado por el Equipo Cartucho se dispone de 8MB en Flash ROM y 128
 Según lo encontrado por el Equipo EEPROM esta memoria tiene una capacidad de 4Kbits con interfaz I2C.
 
 Así, se identifica que la FPGA es quien tiene más memoria, sin embargo, esta no permite almacenamiento permanente que es critico para el almacenamiento de los datos de un juego, por lo tanto esta memoria tiene como propósito el procesamiento interno de imagen, audio y software. Por otro lado la memoria disponible en el cartucho tiene como propósito almacenar el juego, su código y recursos, además de ofrecer memoria RAM extra para las consolas antiguas. Y la memoria EEPROM puede ser util para el almacenamiento de datos no relacionados a los juegos si no al sistema de la consola.
+
 ---
+
+## [Soporte para Interrupciones](/soc/femtorv32_intermissum/README.md)
 
 
 ## Conexiones general
@@ -44,9 +57,10 @@ Para el proyecto se utilizan las siguientes herramientas
 - [openFPGALoader](https://github.com/trabucayre/openFPGALoader)
 - [LiteX](https://github.com/enjoy-digital/litex/)
 - [gtkwave](https://github.com/gtkwave/gtkwave)
+- [Iverilog](https://github.com/steveicarus/iverilog)
 - [RISC-V GNU Compiler Toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain) via [xPack GNU RISC-V Embedded GCC](https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack)
 
-## Instalación de Herramientas
+### Instalación de Herramientas
 Para facilitar la instalación y evitar problemas asociados a rutas y dependencias se utiliza [Pixi](https://pixi.prefix.dev/v0.82.0/)
 
 1. Instalar Pixi con [oneliner](https://pixi.prefix.dev/v0.82.0/installation/)
@@ -65,14 +79,24 @@ cd FPGBC_digital_UN
 ```bash
 [ FPGBC_digital_UN]$ pixi install
 ```
-4. Configurar el entorno, se descarga el RISC-V toolchain y se pide **autorización** para agregar las reglas udev para acceder al usb
+4. Configurar el entorno: se descarga el RISC-V toolchain y se pide **autorización** para agregar las reglas udev para acceder al usb, también se añade un comando para activar el entorno desde cualquier lugar[^shellnote]. 
 ```bash
 [ FPGBC_digital_UN]$ pixi run setup-env
 ```
-5. Probar que se han instalado las herramientas, se ejecuta un ejemplo de LiteX que conlleva compilación de software, síntesis de hardware y intenta subir a una tarjeta 
+5. Reinicie o cree otra terminal
+6. Probar que se han instalado las herramientas, se ejecuta un ejemplo de LiteX que conlleva compilación de software, síntesis de hardware y intenta subir a una tarjeta 
 ```bash
 [ FPGBC_digital_UN]$ pixi run test-EDA
 ```
+
+
+### Uso de las herramientas
+Puede utilizar el entorno y sus herramientas mediante comandos propios de pixi `pixi run <comando>` o puede activar el entorno con los siguientes métodos :
+
+- En la carpeta de repositorio `[ FPGBC_digital_UN]$ pixi shell`
+- En cualquier lugar `$ FPGBC_workspace_activate`[^shellnote]
+
+[^shellnote] El comando `FPGBC_workspace_activate` se añadió al archivo ~/.bashrc, si utiliza otro shell puede que no funcione
 
 ## Prueba de SoC mínimo
 1. Verificar conexiones físicas

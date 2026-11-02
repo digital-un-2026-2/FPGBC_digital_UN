@@ -25,6 +25,8 @@ from litex.soc.cores.gpio import GPIOIn
 from litex.soc.cores.ram.gowin_hyperram import GowinHyperRAM
 
 import FPGBC_unal_platform
+from femtorv32_intermissum import FemtoRVIntermissumIRQ
+
 # CRG ----------------------------------------------------------------------------------------------
 
 class _CRG(LiteXModule):
@@ -34,17 +36,19 @@ class _CRG(LiteXModule):
         self.cd_por   = ClockDomain()
         # Clk
         clk40 = platform.request("clk40")
-
+        # Boton push de volumen, unicamente para debug
+        rst_n = platform.request("global_rst_n")
+        
         # Power on reset
-        por_count = Signal(16, reset=2**16-1)
-        por_done  = Signal()
-        self.comb += self.cd_por.clk.eq(clk40)
-        self.comb += por_done.eq(por_count == 0)
-        self.sync.por += If(~por_done, por_count.eq(por_count - 1))
+        #por_count = Signal(16, reset=2**16-1)
+        #por_done  = Signal()
+        #self.comb += self.cd_por.clk.eq(clk40)
+        #self.comb += por_done.eq(por_count == 0)
+        #self.sync.por += If(~por_done, por_count.eq(por_count - 1))
 
         # PLL
         self.pll = pll = GW2APLL(devicename=platform.devicename, device=platform.device)
-        self.comb += pll.reset.eq(~por_done)
+        self.comb += pll.reset.eq(~rst_n | self.rst)
         pll.register_clkin(clk40, 40e6)
         pll.create_clkout(self.cd_sys, sys_clk_freq)
 
@@ -65,7 +69,8 @@ class BaseSoC(SoCCore):
 
         platform = FPGBC_unal_platform.Platform(toolchain=toolchain)
         # CRG --------------------------------------------------------------------------------------
-        with_hyperram = not kwargs.get("integrated_main_ram_size", 0)
+        #PSRAM integrada no disponible <por ahora>
+        with_hyperram = False #not kwargs.get("integrated_main_ram_size", 0)
 
         self.crg = _CRG(platform, sys_clk_freq,with_hyperram)
 
@@ -103,12 +108,14 @@ class BaseSoC(SoCCore):
         
         #La ram correcta es PSRAM https://github.com/YosysHQ/apicula/issues/332
         # que considerando instrucciones y datos de 32 bits se considera un _tamaño_ de $\frac{64e6}{8} \frac{1}{2} = 4MB$,
-
+        
         # Buttons ----------------------------------------------------------------------------------
         if with_game_buttons:
-            self.game_buttons = GPIOIn(pads=platform.request("game_buttons"))
+            self.game_buttons = GPIOIn(pads=platform.request("game_buttons_n"),with_irq=self.irq.enabled)
+            if self.irq.enabled: 
+                self.irq.add("game_buttons", use_loc_if_exists=True)
         if with_volume_buttons:    
-            self.volume_buttons = GPIOIn(pads=platform.request("volume_buttons"))
+            self.volume_buttons = GPIOIn(pads=platform.request("volume_buttons_n"))
 # Build --------------------------------------------------------------------------------------------
 
 def main():
@@ -119,21 +126,28 @@ def main():
     parser.add_target_argument("--sys-clk-freq",   default=40e6, type=float, help="System clock frequency.")
     #parser.add_target_argument("--with-spi-flash", action="store_true",      help="Enable memory-mapped SPI flash.")
     #parser.add_argument("--with-gb-link-uart",action="store_true",default=True,help="UART via GB Link Port")
+    parser.add_target_argument("--with-game-buttons", action="store_true", help="Habilitar botones de juego")
+    parser.add_target_argument("--with-volume-buttons", action= "store_true", help="Habilitar botones de volumen")
+    
     parser.set_defaults(
         cpu_type="femtorv",
-        cpu_variant="quark",
-        no_uart=False,
-        toolchain="apicula")
+        cpu_variant="intermissum",#Soporte para interrupciones, no tiene soporte por parte de LiteX
+        toolchain="apicula",
+        integrated_main_ram_size = 0x4000#16KiB ~16KB
+        )
     args = parser.parse_args()
-
     soc = BaseSoC(
         toolchain            = args.toolchain,
         sys_clk_freq         = args.sys_clk_freq,
         #with_spi_flash       = args.with_spi_flash,
+        with_game_buttons = args.with_game_buttons,
+        #with_volume_buttons = args.with_volume_buttons, 
         **parser.soc_argdict
     )
 
     builder = Builder(soc, **parser.builder_argdict)
+    #builder.add_software_package(name="lib_unal",src_dir=os.path.abspath(os.path.join(os.path.dirname(__file__),"../firmware/lib_unal")))
+    #builder.add_software_library(name="lib_unal")
     if args.build:
         builder.build(**parser.toolchain_argdict)
 

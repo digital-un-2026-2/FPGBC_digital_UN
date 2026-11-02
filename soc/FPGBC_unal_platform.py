@@ -47,7 +47,7 @@ _io = [
     ),    
 
     # Buttons.
-    ("game_buttons",0,
+    ("game_buttons_n",0,
         Subsignal("a", Pins("50")),
         Subsignal("b", Pins("51")),
         Subsignal("start", Pins("97")),
@@ -60,14 +60,15 @@ _io = [
         Misc("PULL_MODE=UP")
     ),
 
-    ("volume_buttons",0,
+    ("volume_buttons_n",0,
         Subsignal("up", Pins("119")),
         Subsignal("push", Pins("120")),
         Subsignal("down",Pins("121")),
         IOStandard("LVCMOS33"),
         Misc("PULL_MODE=UP")
     ),
-
+    #Only for debug
+    ("global_rst_n", 0, Pins("120"), IOStandard("LVCMOS33"), Misc("PULL_MODE=UP")),
 
     #MIPI LDC TODO
 
