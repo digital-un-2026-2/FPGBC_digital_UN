@@ -27,7 +27,8 @@ class FemtoRVIntermissumIRQ(FemtoRV, AutoCSR):
 
     @staticmethod
     def add_sources(platform, variant):
-        platform.add_verilog_include_path(os.path.abspath(os.path.dirname(__file__)))
-        platform.add_source("femtorv32_intermissum.v")
+        src_dir = os.path.abspath(os.path.dirname(__file__))
+        #platform.add_verilog_include_path(src_dir)
+        platform.add_source(os.path.join(src_dir,"femtorv32_intermissum.v"))
 
 CPUS["femtorv"] = FemtoRVIntermissumIRQ

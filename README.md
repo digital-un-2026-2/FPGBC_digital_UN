@@ -96,7 +96,7 @@ Puede utilizar el entorno y sus herramientas mediante comandos propios de pixi `
 - En la carpeta de repositorio `[ FPGBC_digital_UN]$ pixi shell`
 - En cualquier lugar `$ FPGBC_workspace_activate`[^shellnote]
 
-[^shellnote] El comando `FPGBC_workspace_activate` se añadió al archivo ~/.bashrc, si utiliza otro shell puede que no funcione
+[^shellnote]: El comando `FPGBC_workspace_activate` se añadió al archivo ~/.bashrc, si utiliza otro shell puede que no funcione
 
 ## Prueba de SoC mínimo
 1. Verificar conexiones físicas

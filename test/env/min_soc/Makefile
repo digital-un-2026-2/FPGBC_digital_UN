@@ -75,6 +75,7 @@ test_gowin : test.v
 
 detect:
 	openFPGALoader --cable ft232RL --pins TXD:CTS:DTR:RXD --freq $(EQ144_JTAG_FREQ) --detect -f
+									--pins TXD:CTS:RTS:RXD
 configure_test :
 	openFPGALoader --cable ft232RL --pins TXD:CTS:DTR:RXD --freq $(EQ144_JTAG_FREQ) --write-sram --bitstream $(EQ144_BUILD_DIR)/$(TOP).fs
 #										TDI:TDO:TCK:TMS
