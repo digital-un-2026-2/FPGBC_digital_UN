@@ -103,7 +103,9 @@ class Platform(GowinPlatform):
         #if kit == "gowin":
         #    return GowinProgrammer(self.devicename)
         if kit == "openfpgaloader":
-            return OpenFPGALoader(cable="ft232RL")
+            programmer = OpenFPGALoader(cable="ft232RL")
+            programmer.cmd += ["--pins","TXD:CTS:DTR:RXD"]
+            return programmer
         else:
             raise ValueError(f"Unsupported programmer kit: {kit}")
 

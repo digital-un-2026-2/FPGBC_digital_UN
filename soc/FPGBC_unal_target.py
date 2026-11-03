@@ -40,11 +40,11 @@ class _CRG(LiteXModule):
         rst_n = platform.request("global_rst_n")
         
         # Power on reset
-        #por_count = Signal(16, reset=2**16-1)
-        #por_done  = Signal()
-        #self.comb += self.cd_por.clk.eq(clk40)
-        #self.comb += por_done.eq(por_count == 0)
-        #self.sync.por += If(~por_done, por_count.eq(por_count - 1))
+        por_count = Signal(16, reset=2**16-1)
+        por_done  = Signal()
+        self.comb += self.cd_por.clk.eq(clk40)
+        self.comb += por_done.eq(por_count == 0)
+        self.sync.por += If(~por_done, por_count.eq(por_count - 1))
 
         # PLL
         self.pll = pll = GW2APLL(devicename=platform.devicename, device=platform.device)
@@ -146,17 +146,17 @@ def main():
     )
 
     builder = Builder(soc, **parser.builder_argdict)
-    #builder.add_software_package(name="lib_unal",src_dir=os.path.abspath(os.path.join(os.path.dirname(__file__),"../firmware/lib_unal")))
-    #builder.add_software_library(name="lib_unal")
+    builder.add_software_package(name="lib_unal",src_dir=os.path.abspath(os.path.join(os.path.dirname(__file__),"../firmware/lib_unal")))
+    builder.add_software_library(name="lib_unal")
     if args.build:
         builder.build(**parser.toolchain_argdict)
 
     if args.load:
-        prog = soc.platform.create_programmer(kit=args.prog_kit)
+        prog = soc.platform.create_programmer()
         prog.load_bitstream(builder.get_bitstream_filename(mode="sram"))
 
     if args.flash:
-        prog = soc.platform.create_programmer(kit=args.prog_kit)
+        prog = soc.platform.create_programmer()
         prog.flash(0, builder.get_bitstream_filename(mode="flash", ext=".fs"), external=True)
 
 if __name__ == "__main__":

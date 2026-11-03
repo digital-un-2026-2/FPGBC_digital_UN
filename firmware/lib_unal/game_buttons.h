@@ -1,9 +1,20 @@
 #ifndef __GAME_BUTTONS_H
 #define __GAME_BUTTONS_H
 
-void game_buttons_init(void);
+#define GAME_BUTTONS_ALL_ENABLE 0xFF
+#define GAME_BUTTONS_MODE_CHANGE 0x1
+#define GAME_BUTTONS_N 0x8
+#define GAME_BUTTONS_A CSR_GAME_BUTTONS_EV_STATUS_I0_OFFSET
+#define GAME_BUTTONS_B CSR_GAME_BUTTONS_EV_STATUS_I1_OFFSET
+#define GAME_BUTTONS_START CSR_GAME_BUTTONS_EV_STATUS_I2_OFFSET
+#define GAME_BUTTONS_SELECT CSR_GAME_BUTTONS_EV_STATUS_I3_OFFSET
+#define GAME_BUTTONS_RIGHT CSR_GAME_BUTTONS_EV_STATUS_I4_OFFSET
+#define GAME_BUTTONS_UP CSR_GAME_BUTTONS_EV_STATUS_I5_OFFSET
+#define GAME_BUTTONS_DOWN CSR_GAME_BUTTONS_EV_STATUS_I6_OFFSET
+#define GAME_BUTTONS_LEFT CSR_GAME_BUTTONS_EV_STATUS_I7_OFFSET
+
+void button_debounce(void);
 void game_buttons_isr(void);
-unsigned int get_game_button(unsigned int n_button);
-int attach_isr_to_button(unsigned int n_button, isr_t isr);
-//TODO
+void game_buttons_init(void);
+
 #endif
