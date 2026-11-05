@@ -18,6 +18,10 @@ Para la habilitación y identificación se utilizan CSR externos al procesador, 
 
 Estos registros y la señal de interrupciones se componen para enviar una única señal al procesador mediante su pin `i_interrupt_request` cuando sucede alguna interrupción.
 
+Para la aplicación especifica de GPIO con interrupción LiteX ofrece las clases en [GPIO.py](https://github.com/enjoy-digital/litex/blob/master/litex/soc/cores/gpio.py) que para GPIOIn permite el uso de interrupciones configurables, disparadas por nivel o flanco, positivo o negativo. Como capa de abstracción para luego realizar el procesamiento LiteX usa la clase [Event Manager](https://github.com/enjoy-digital/litex/blob/master/litex/soc/interconnect/csr_eventmanager.py)
+
+![RTL para la generación de interrupción por GPIOIn](irq_support_hand.svg)
+
 ## Lado Software
 ### IRQ (Interrupt Request)
 Se debe ofrecer una capa de software para utilizar las interrupciones, por ejemplo para el procesador VexRiscv se ofrece [irq.h](https://github.com/enjoy-digital/litex/blob/master/litex/soc/cores/cpu/vexriscv/irq.h) que ofrece funciones para habilitar y identificar las interrupciones, para esto se accede a CSR internos de el procesador que son los encargados de las interrupciones.
