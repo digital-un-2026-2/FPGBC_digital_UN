@@ -1,0 +1,55 @@
+direction: down
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
+
+Pad -> FF_0
+
+FF_0 -> FF_1
+FF_1 -> FF_2
+
+FF_3 -> AND
+Enable Reg -> AND
+
+n Input -> OR
+
+AND -> OR
+
+OR -> CSR IRQ Pending : GPIO interrupt
+CSR IRQ Pending -> "OR(AND(_,_),...)"
+CSR IRQ Mask -> "OR(AND(_,_),...)"
+
+"OR(AND(_,_),...)" -> FemtoRV.Interrupt Request
+
+
+Change {
+    _.FF_1 -> XOR : status
+
+    _.FF_2 -> XOR
+
+    XOR -> _.FF_3 : trigger
+}
+
+Falling Edge {
+    _.FF_1 -> NOT : status
+    NOT -> AND
+    _.FF_2 -> AND
+    AND -> _.FF_3 : trigger
+}
+
+Rising Edge {
+    _.FF_1 -> AND : status
+    _.FF_2 -> NOT
+    NOT -> AND
+
+    AND -> _.FF_3 : trigger
+}
+
+FF_0 : Reg
+FF_1 : Pad Sync Reg
+FF_2 : Pad previous Reg
+
+FF_3 : Pending Reg
