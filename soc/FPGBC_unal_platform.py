@@ -48,13 +48,13 @@ _io = [
 
     # Buttons.
     ("game_buttons_n",0,
-        Subsignal("a", Pins("50")),
-        Subsignal("b", Pins("51")),
+        Subsignal("a", Pins("51")),
+        Subsignal("b", Pins("50")),
         Subsignal("start", Pins("97")),
         Subsignal("select", Pins("98")),
         Subsignal("right", Pins("99")),
-        Subsignal("up", Pins("100")),
-        Subsignal("down", Pins("101")),
+        Subsignal("up", Pins("101")),
+        Subsignal("down", Pins("100")),
         Subsignal("left", Pins("102")),
         IOStandard("LVCMOS33"),
         Misc("PULL_MODE=UP")
@@ -62,7 +62,7 @@ _io = [
 
     ("volume_buttons_n",0,
         Subsignal("up", Pins("119")),
-        Subsignal("push", Pins("120")),
+        #Subsignal("push", Pins("120")),
         Subsignal("down",Pins("121")),
         IOStandard("LVCMOS33"),
         Misc("PULL_MODE=UP")
@@ -105,6 +105,7 @@ class Platform(GowinPlatform):
         if kit == "openfpgaloader":
             programmer = OpenFPGALoader(cable="ft232RL")
             programmer.cmd += ["--pins","TXD:CTS:DTR:RXD"]
+            #                           TDI:TDO:TCK:TMS
             return programmer
         else:
             raise ValueError(f"Unsupported programmer kit: {kit}")

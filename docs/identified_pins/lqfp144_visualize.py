@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import os
 
 def plot_lqfp144(csv_path="gowin_ar_lv18e144pc.csv", output_path="lqfp144_pinout.png"):
     # 1. Cargar y limpiar los datos del CSV
@@ -176,4 +177,5 @@ def plot_lqfp144(csv_path="gowin_ar_lv18e144pc.csv", output_path="lqfp144_pinout
     #plt.show()
 
 if __name__ == '__main__':
-    plot_lqfp144("gowin_ar_lv18e144pc.csv")
+    _dir = os.path.dirname(__file__)
+    plot_lqfp144(os.path.join(_dir,"gowin_ar_lv18e144pc.csv"),os.path.join(_dir,"lqfp144_pinout.png"))

@@ -99,8 +99,19 @@ BufferData : |`md
     ### Buffer
     |Señal|Pin|
     |-|-|
-    |#OE|  |
-    |DIR|  |
+    |DIR|59|
+    A->B
+`|
+
+BufferCmd -> Cartucho.Control
+FPGA -> BufferCmd
+BufferCmd.shape : rectangle
+
+BufferCmd : |`md
+    ### Buffer
+    |Señal|Pin|
+    |-|-|
+    |#OE|48|
 `|
 
 

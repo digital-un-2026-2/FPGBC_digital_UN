@@ -101,8 +101,8 @@ Puede utilizar el entorno y sus herramientas mediante comandos propios de pixi `
 ## Prueba de SoC mínimo
 1. Verificar conexiones físicas
 ```
---cable ft232RL --pins TXD:CTS:DTR:RXD
-                --fpga TDI:TDO:TCK:TMS
+cable ft232RL --pins TXD:CTS:DTR:RXD
+              --fpga TDI:TDO:TCK:TMS
 ```
 2. Usar el la orden
 ```bash

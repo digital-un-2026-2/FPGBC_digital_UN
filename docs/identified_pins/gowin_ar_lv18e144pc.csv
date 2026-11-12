@@ -98,6 +98,7 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 44,IOB12A,I/O,None,CARTUCHO PIN 23 (Via Level Shifter);
 45,IOB12B,I/O,None,CARTUCHO PIN 22 (Via Level Shifter);
 48,IOB17A,I/O,None, OE YF04E;
+59,IOB33B,I/O,None, DIR LJ24SA;
 93,IOR34B/MCLK/D4,I/O,MCLK/D4,CLK SPI;
 94,IOR34A/MCS_N/D5,I/O,MCS_N/D5,N_CS SPI Pull up;
 95,IOR33B/MO/D6,I/O,MO/D6,DI SPI Pull up;
