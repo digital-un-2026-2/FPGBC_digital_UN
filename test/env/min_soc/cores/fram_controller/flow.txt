@@ -1,0 +1,173 @@
+Pseudocódigo Controlador FRAM (v1) - Hipótesis 1
+=================================================
+
+Hipótesis 1 (decodificación dentro del MBC5 del cartucho):
+    RAM_CE_N = 0  si  RAMG == 0x0A  y  #CS == 0  y  ADDR[15:13] == 0b101
+    RAM_CE_N = 1  en otro caso
+=> Para acceder a la FRAM el controlador debe:
+    1. Escribir el banco en RAMB      (ADDR = 0x4000, #CS = 1)
+    2. Escribir 0x0A en RAMG          (ADDR = 0x0000, #CS = 1)
+    3. Acceder a 0xA000-0xBFFF        (#CS = 0) con #RD o #WR
+    4. Escribir 0x00 en RAMG          (ADDR = 0x0000, #CS = 1) para proteger los datos
+Las escrituras a registros del MBC5 (0x0000-0x7FFF) se hacen con #CS = 1,
+igual que en una Game Boy real (#CS solo baja en 0xA000-0xFDFF).
+
+
+----------------------------------------------------------------
+Señales
+----------------------------------------------------------------
+Lado procesador (FemtoRV, sin adaptar):
+    mem_addr[16:0]   entrada   dirección de byte dentro de los 128 KB de la FRAM
+    mem_wdata[31:0]  entrada   dato a escribir (FemtoRV ya ubica cada byte en su carril)
+    mem_wmask[3:0]   entrada   bytes a escribir; != 0 solo durante 1 ciclo
+    mem_rstrb        entrada   petición de lectura; dura 1 ciclo
+    mem_rdata[31:0]  salida    palabra leída, little-endian
+    mem_rbusy        salida    1 mientras la lectura está en curso
+    mem_wbusy        salida    1 mientras la escritura está en curso
+
+Lado cartucho (a través de los buffers externos):
+    ADDR[15:0]       salida    bus de direcciones (directo al cartucho)
+    D_OUT[7:0]       salida    dato que el controlador pone en el bus
+    D_OE             salida    1 = la FPGA maneja D[7:0]; 0 = alta impedancia
+    D_IN[7:0]        entrada   dato leído del bus
+    DATA_DIR         salida    dirección del buffer de datos:
+                                   HACIA_CART = controlador -> cartucho (escritura)(A->B 1)
+                                   HACIA_CTRL = cartucho -> controlador (lectura / reposo)(B->A 0)
+    #WR, #RD, #CS    salida    señales de control del bus Game Boy (vía buffer de control)
+    CMD_OE           salida    habilitación del buffer de control (activo en alto)
+
+Registros internos:
+    req_addr[16:0], req_wdata[31:0], req_wmask[3:0]   copia de la petición
+    rdata[31:0]                                       palabra leída (se mantiene estable)
+    banco_actual[3:0], banco_valido                   último banco escrito en RAMB
+    i[1:0]                                            índice de byte dentro de la palabra
+    contador                                          temporizador de espera en ciclos
+
+
+----------------------------------------------------------------
+Parámetros de tiempo
+----------------------------------------------------------------
+Todos se dan en ns y se convierten a ciclos: N = ceil(t_ns * f_clk / 1e9).
+Son valores iniciales conservadores.
+
+    T_TURN =  50 ns   espera tras cambiar DATA_DIR / D_OE (cambio de sentido del bus)
+    T_SU   = 150 ns   ADDR y #CS estables antes de #RD o #WR
+                      (divisor resistivo del cartucho: ~3.4 kΩ * ~25 pF -> ~100 ns)
+    T_ACC  = 200 ns   #RD en bajo antes de muestrear D_IN
+                      (divisor + decodificación MBC5 + tCE = 70 ns + 2 buffers)
+    T_WP   = 150 ns   ancho del pulso #WR (tWP = 22 ns, tCW = 70 ns)
+    T_HD   = 100 ns   dato y #CS se mantienen tras subir #WR; el divisor retrasa
+                      la subida de #WR en el cartucho y tDH = 0 ns se cumple en el pin de la FRAM
+    T_PC   = 150 ns   todo inactivo entre accesos (tPC = 35 ns + subida de #CS)
+
+    esperar(T) : contador = N(T); mientras contador > 0: contador -= 1
+
+
+----------------------------------------------------------------
+Procedimientos de bus (un ciclo de bus de la Game Boy)
+----------------------------------------------------------------
+ESCRIBIR_BUS(dir[15:0], dato[7:0], cs):
+    #RD = 1 ; #WR = 1 ; #CS = 1
+    ADDR = dir
+    esperar(T_TURN)              # #RD sube antes de girar el bus (sin choque con el cartucho)
+    DATA_DIR = HACIA_CART
+    D_OUT = dato ; D_OE = 1
+    #CS = cs
+    esperar(T_SU)
+    #WR = 0
+    esperar(T_WP)
+    #WR = 1                      # MBC5 / FRAM capturan el dato en este flanco
+    esperar(T_HD)
+    #CS = 1
+    D_OE = 0
+    DATA_DIR = HACIA_CTRL        # se regresa al estado de reposo
+    esperar(T_PC)
+
+LEER_BUS(dir[15:0]) -> dato[7:0]:
+    #WR = 1 ; #RD = 1
+    D_OE = 0
+    DATA_DIR = HACIA_CTRL
+    ADDR = dir
+    #CS = 0                      # solo se usa para 0xA000-0xBFFF
+    esperar(T_SU)
+    #RD = 0
+    esperar(T_ACC)
+    dato = D_IN
+    #RD = 1
+    #CS = 1
+    esperar(T_PC)
+    retornar dato
+
+
+----------------------------------------------------------------
+Máquina de estados principal
+----------------------------------------------------------------
+- RESET
+    #WR = 1 ; #RD = 1 ; #CS = 1     # primero se fijan los niveles inactivos...
+    D_OE = 0 ; DATA_DIR = HACIA_CTRL
+    ADDR = 0x0000
+    CMD_OE = 1                      # ...y luego se habilita el buffer de control.
+                                    # Con el buffer en alta impedancia los divisores
+                                    # del cartucho llevan #WR/#RD/#CS a 0 (activos).
+    mem_rbusy = 0 ; mem_wbusy = 0
+    rdata = 0x00000000
+    banco_valido = 0
+    ir a REPOSO
+
+- REPOSO
+    Si mem_rstrb == 1:
+        req_addr = mem_addr[16:0]
+        mem_rbusy = 1               # registrado en el mismo flanco: FemtoRV lo ve
+        ir a HABILITAR(op = LEER)   # en el ciclo siguiente (WAIT_*)
+    Si no, si mem_wmask != 0:
+        req_addr  = mem_addr[16:0]
+        req_wdata = mem_wdata
+        req_wmask = mem_wmask
+        mem_wbusy = 1
+        ir a HABILITAR(op = ESCRIBIR)
+    Si no:
+        permanecer en REPOSO
+
+- HABILITAR(op)
+    banco = req_addr[16:13]
+    Si banco_valido == 0 o banco != banco_actual:
+        ESCRIBIR_BUS(0x4000, {0000, banco}, cs = 1)    # RAMB
+        banco_actual = banco ; banco_valido = 1
+    ESCRIBIR_BUS(0x0000, 0x0A, cs = 1)                 # RAMG = habilitar
+    i = 3                           # se recorre de 3 a 0 (BYTE COUNTER)
+    ir a LEER_BYTE si op == LEER, si no a ESCRIBIR_BYTE
+
+- LEER_BYTE                         # se leen siempre los 4 bytes; FemtoRV
+    dir = {101, req_addr[12:2], i}   # selecciona byte/media palabra internamente
+    rdata = {rdata[23:0], LEER_BUS(dir)}               # corrimiento a la izquierda:
+                                                       # tras i = 3..0 el byte 0 queda
+                                                       # en rdata[7:0] (little-endian)
+    Si i == 0: ir a DESHABILITAR
+    Si no:     i -= 1 ; permanecer en LEER_BYTE
+
+- ESCRIBIR_BYTE                     # solo los carriles con wmask[i] == 1
+    Si req_wmask[i] == 1:
+        dir = {101, req_addr[12:2], i}
+        ESCRIBIR_BUS(dir, req_wdata[8*i+7 : 8*i], cs = 0)
+    Si i == 0: ir a DESHABILITAR
+    Si no:     i -= 1 ; permanecer en ESCRIBIR_BYTE
+
+- DESHABILITAR
+    ESCRIBIR_BUS(0x0000, 0x00, cs = 1)                 # RAMG = deshabilitar
+    mem_rbusy = 0 ; mem_wbusy = 0   # rdata ya es válido y se mantiene hasta la
+    ir a REPOSO                     # siguiente lectura
+
+
+----------------------------------------------------------------
+Notas
+----------------------------------------------------------------
+- Dirección en el bus: {0b101, mem_addr[12:2], i[1:0]} = 3 + 11 + 2 = 16 bits,
+  dentro de 0xA000-0xBFFF. El banco (mem_addr[16:13]) viaja por RAMB.
+- Los 4 bytes de una palabra están en la misma fila de la FRAM (A16-A3 iguales);
+  una optimización futura es mantener #CS = 0 entre bytes y usar modo página (tAAP).
+- Costo por palabra: 4 accesos (lectura) o popcount(wmask) accesos (escritura),
+  más 2 escrituras de registro (RAMG on/off) y 1 más si cambia el banco.
+- Suposición por verificar: cuando #RD = 1 el MBC5 del cartucho pone su DATA_DIR
+  en sentido consola -> cartucho. Por eso #RD sube antes de girar el buffer de la consola.
+- El reposo con DATA_DIR = HACIA_CTRL y D_OE = 0 evita choques sin importar
+  lo que haga el cartucho: el buffer solo maneja hacia la FPGA, que está en alta impedancia.

@@ -1,0 +1,329 @@
+vars : {
+    d2-config : {
+        layout-engine : elk
+        theme-id : 1
+    }
+}
+
+title : Data path controlador FRAM v1 {
+    near : top-center
+    shape : text
+    style.font-size : 32
+    style.bold : true
+}
+
+# Cada tabla es un bloque. Columnas: señal | bloque(s) que la producen o la
+# reciben | dirección (in = entrada, out = salida, inout, reg = registro interno).
+# Las conexiones van de la fila "out" del bloque que produce la señal a la
+# fila "in" del bloque que la recibe. Color de la flecha: azul = control
+# desde la FSM, naranja = estado hacia la FSM, negro = datos/direcciones,
+# rojo = reset.
+#
+# Reset: el reset del sistema (rst, activo en alto) entra solo a la FSM, que
+# lo distribuye (blk_rst) a todos los bloques síncronos. Así todos los
+# registros arrancan en un valor conocido al configurar la FPGA, sin depender
+# de las señales *_ld.
+#
+# Todas las salidas de la FSM (incluidas #WR, #RD, #CS, CMD_OE, DATA_DIR,
+# D_OE) son combinacionales según el estado actual (Moore). La máquina
+# principal cambia en el flanco negativo, así sus salidas están estables
+# cuando los bloques de flanco positivo las muestrean.
+
+classes : {
+    sinc : {
+        shape : sql_table
+        style.fill : "#1F3A93"
+    }
+    comb : {
+        shape : sql_table
+        style.fill : "#2E7D32"
+    }
+    ext : {
+        shape : sql_table
+        style.fill : "#5F6368"
+    }
+    ctrl : {
+        style.stroke : "#1565C0"
+    }
+    estado : {
+        style.stroke : "#E65100"
+        style.stroke-dash : 4
+    }
+    datos : {
+        style.stroke : "#0A0F25"
+        style.stroke-width : 2
+    }
+    reset : {
+        style.stroke : "#C62828"
+        style.stroke-dash : 2
+    }
+}
+
+direction : right
+
+# ---------------- Externos ----------------
+
+SYS : "Sistema (externo)" {
+    class : ext
+    rst : "FSM  (reset del SoC, activo en alto)" {constraint : out}
+}
+
+CPU : "FemtoRV (externo)" {
+    class : ext
+    "mem_addr[16:0]" : "REQ REG" {constraint : out}
+    "mem_wdata[31:0]" : "DATA REG" {constraint : out}
+    "mem_wmask[3:0]" : "FSM, REQ REG" {constraint : out}
+    mem_rstrb : "FSM" {constraint : out}
+    "mem_rdata[31:0]" : "DATA REG" {constraint : in}
+    mem_rbusy : "FSM" {constraint : in}
+    mem_wbusy : "FSM" {constraint : in}
+}
+
+# ---------------- Control ----------------
+
+FSM : "FSM (sinc: principal flanco -, sub-máquinas flanco +)" {
+    class : sinc
+    rst : "Sistema" {constraint : in}
+    mem_rstrb : "CPU" {constraint : in}
+    "mem_wmask[3:0]" : "CPU" {constraint : in}
+    tmr_done : "TIMER" {constraint : in}
+    i_last : "BYTE COUNTER" {constraint : in}
+    lane_en : "REQ REG" {constraint : in}
+    banco_cambia : "BANK SELECTOR" {constraint : in}
+    estado : "principal, flanco -, reset: RESET" {constraint : reg}
+    op : "LEER / ESCRIBIR, flanco -" {constraint : reg}
+    w_estado : "ESCRIBIR_BUS, flanco +, blk_rst: W_IDLE" {constraint : reg}
+    r_estado : "LEER_BUS, flanco +, blk_rst: R_IDLE" {constraint : reg}
+    "llamar_w, llamar_r, cs" : "principal -> sub-máquinas" {constraint : interno}
+    bus_done : "sub-máquinas -> principal" {constraint : interno}
+    blk_rst : "todos los bloques síncronos  (= rst)" {constraint : out}
+    mem_rbusy : "CPU  (reset: 0)" {constraint : out}
+    mem_wbusy : "CPU  (reset: 0)" {constraint : out}
+    req_ld : "REQ REG, DATA REG" {constraint : out}
+    rd_shift : "DATA REG" {constraint : out}
+    bank_ld : "BANK SELECTOR" {constraint : out}
+    cnt_ld : "BYTE COUNTER" {constraint : out}
+    cnt_dec : "BYTE COUNTER" {constraint : out}
+    tmr_ld : "TIMER" {constraint : out}
+    "tmr_sel[2:0]" : "TIMER" {constraint : out}
+    "addr_sel[1:0]" : "ADDR OUT" {constraint : out}
+    "dq_sel[1:0]" : "DQ MUX" {constraint : out}
+    "#WR, #RD, #CS" : "Buffer de control  (reposo: 1)" {constraint : out}
+    CMD_OE : "Buffer de control  (0 en RESET)" {constraint : out}
+    DATA_DIR : "Buffer de datos  (reposo: HACIA_CTRL)" {constraint : out}
+    D_OE : "DQ TRI  (reposo: 0)" {constraint : out}
+}
+
+TIMER : "TIMER (sinc)" {
+    class : sinc
+    blk_rst : "FSM" {constraint : in}
+    tmr_ld : "FSM" {constraint : in}
+    "tmr_sel[2:0]" : "FSM" {constraint : in}
+    contador : "si blk_rst | tmr_ld | tmr_done: 0, si no: +1" {constraint : reg}
+    tmr_done : "FSM  (= contador >= N(tmr_sel) - 1)" {constraint : out}
+}
+
+BYTE_COUNTER : "BYTE COUNTER (sinc)" {
+    class : sinc
+    blk_rst : "FSM" {constraint : in}
+    cnt_ld : "FSM" {constraint : in}
+    cnt_dec : "FSM" {constraint : in}
+    "i[1:0]" : "reset: 3, si cnt_ld: 3, si cnt_dec: i - 1" {constraint : reg}
+    "i[1:0] " : "REQ REG, ADDR MAPPER, DATA REG" {constraint : out}
+    i_last : "FSM  (= i == 0)" {constraint : out}
+}
+
+# ---------------- Petición y direcciones ----------------
+
+REQ_REG : "REQ REG (sinc)" {
+    class : sinc
+    blk_rst : "FSM" {constraint : in}
+    req_ld : "FSM" {constraint : in}
+    "mem_addr[16:0]" : "CPU" {constraint : in}
+    "mem_wmask[3:0]" : "CPU" {constraint : in}
+    "i[1:0]" : "BYTE COUNTER" {constraint : in}
+    "req_addr[16:0]" : "reset: 0, si req_ld: mem_addr" {constraint : reg}
+    "req_wmask[3:0]" : "reset: 0, si req_ld: mem_wmask" {constraint : reg}
+    "req_addr[16:0] " : "ADDR MAPPER" {constraint : out}
+    lane_en : "FSM  (= req_wmask[i])" {constraint : out}
+}
+
+ADDR_MAPPER : "ADDR MAPPER (comb)" {
+    class : comb
+    "req_addr[16:0]" : "REQ REG" {constraint : in}
+    "i[1:0]" : "BYTE COUNTER" {constraint : in}
+    "banco[3:0]" : "BANK SEL, DQ MUX  (= req_addr[16:13])" {constraint : out}
+    "fram_addr[15:0]" : "ADDR OUT  (= {101, req_addr[12:2], i})" {constraint : out}
+}
+
+ADDR_OUT : "ADDR OUT (comb)" {
+    class : comb
+    "addr_sel[1:0]" : "FSM" {constraint : in}
+    "fram_addr[15:0]" : "ADDR MAPPER" {constraint : in}
+    "ADDR[15:0]" : "Cartucho  (0: fram_addr, 1: 0x4000, 2: 0x0000)" {constraint : out}
+}
+
+BANK_SEL : "BANK SELECTOR (sinc)" {
+    class : sinc
+    blk_rst : "FSM" {constraint : in}
+    "banco[3:0]" : "ADDR MAPPER" {constraint : in}
+    bank_ld : "FSM" {constraint : in}
+    "banco_actual[3:0]" : "reset: 0, si bank_ld: banco" {constraint : reg}
+    banco_valido : "reset: 0, si bank_ld: 1" {constraint : reg}
+    banco_cambia : "FSM  (= !banco_valido | banco != banco_actual)" {constraint : out}
+}
+
+# ---------------- Datos ----------------
+
+DATA_REG : "DATA REG (sinc)" {
+    class : sinc
+    blk_rst : "FSM" {constraint : in}
+    req_ld : "FSM" {constraint : in}
+    "mem_wdata[31:0]" : "CPU" {constraint : in}
+    rd_shift : "FSM" {constraint : in}
+    "D_IN[7:0]" : "DQ TRI" {constraint : in}
+    "i[1:0]" : "BYTE COUNTER" {constraint : in}
+    "wdata[31:0]" : "reset: 0, si req_ld: mem_wdata" {constraint : reg}
+    "rdata[31:0]" : "reset: 0, si rd_shift: {rdata[23:0], D_IN}" {constraint : reg}
+    "mem_rdata[31:0]" : "CPU  (= rdata)" {constraint : out}
+    "wbyte[7:0]" : "DQ MUX  (= wdata[8i+7:8i])" {constraint : out}
+}
+
+DQ_MUX : "DQ MUX (comb)" {
+    class : comb
+    "dq_sel[1:0]" : "FSM" {constraint : in}
+    "wbyte[7:0]" : "DATA REG" {constraint : in}
+    "banco[3:0]" : "ADDR MAPPER" {constraint : in}
+    "D_OUT[7:0]" : "DQ TRI  (0: wbyte, 1: {0000, banco}, 2: 0x0A, 3: 0x00)" {constraint : out}
+}
+
+DQ_TRI : "DQ TRI (comb)" {
+    class : comb
+    "D_OUT[7:0]" : "DQ MUX" {constraint : in}
+    D_OE : "FSM" {constraint : in}
+    "D[7:0]" : "Buffer de datos  (= D_OE ? D_OUT : Z)" {constraint : inout}
+    "D_IN[7:0]" : "DATA REG  (= D)" {constraint : out}
+}
+
+# ---------------- Externos del lado cartucho ----------------
+
+BUF_DATA : "Buffer de datos (externo)" {
+    class : ext
+    DATA_DIR : "FSM" {constraint : in}
+    "D[7:0]" : "DQ TRI" {constraint : inout}
+    "D[7:0] " : "Cartucho" {constraint : inout}
+}
+
+BUF_CMD : "Buffer de control (externo)" {
+    class : ext
+    "#WR, #RD, #CS" : "FSM" {constraint : in}
+    CMD_OE : "FSM" {constraint : in}
+    "#WR, #RD, #CS " : "Cartucho" {constraint : out}
+}
+
+CARTUCHO : "Cartucho (externo)" {
+    class : ext
+    "ADDR[15:0]" : "ADDR OUT" {constraint : in}
+    "#WR, #RD, #CS" : "Buffer de control" {constraint : in}
+    "D[7:0]" : "Buffer de datos" {constraint : inout}
+}
+
+leyenda : Leyenda {
+    near : bottom-right
+    grid-columns : 1
+    grid-gap : 8
+    s : "Síncrono (registros)" {
+        style.fill : "#1F3A93"
+        style.font-color : "#FFFFFF"
+    }
+    c : "Combinacional" {
+        style.fill : "#2E7D32"
+        style.font-color : "#FFFFFF"
+    }
+    e : "Externo al controlador" {
+        style.fill : "#5F6368"
+        style.font-color : "#FFFFFF"
+    }
+    f_ctrl : "Control desde la FSM" {
+        shape : text
+        style.font-color : "#1565C0"
+    }
+    f_est : "Estado hacia la FSM (punteada)" {
+        shape : text
+        style.font-color : "#E65100"
+    }
+    f_dat : "Datos / direcciones" {
+        shape : text
+    }
+    f_rst : "Reset (punteada)" {
+        shape : text
+        style.font-color : "#C62828"
+    }
+    n : "in / out / inout: dirección respecto al bloque\nreg: registro interno (valor siguiente)\n(= ...): valor combinacional de la salida" {
+        shape : text
+    }
+}
+
+# ---------------- Conexiones ----------------
+
+# Reset
+SYS.rst -> FSM.rst {class : reset}
+FSM.blk_rst -> TIMER.blk_rst {class : reset}
+FSM.blk_rst -> BYTE_COUNTER.blk_rst {class : reset}
+FSM.blk_rst -> REQ_REG.blk_rst {class : reset}
+FSM.blk_rst -> BANK_SEL.blk_rst {class : reset}
+FSM.blk_rst -> DATA_REG.blk_rst {class : reset}
+
+# Petición del procesador
+CPU."mem_addr[16:0]" -> REQ_REG."mem_addr[16:0]" {class : datos}
+CPU."mem_wmask[3:0]" -> REQ_REG."mem_wmask[3:0]" {class : datos}
+CPU."mem_wdata[31:0]" -> DATA_REG."mem_wdata[31:0]" {class : datos}
+CPU."mem_wmask[3:0]" -> FSM."mem_wmask[3:0]" {class : estado}
+CPU.mem_rstrb -> FSM.mem_rstrb {class : estado}
+DATA_REG."mem_rdata[31:0]" -> CPU."mem_rdata[31:0]" {class : datos}
+FSM.mem_rbusy -> CPU.mem_rbusy {class : ctrl}
+FSM.mem_wbusy -> CPU.mem_wbusy {class : ctrl}
+
+# Control desde la FSM
+FSM.req_ld -> REQ_REG.req_ld {class : ctrl}
+FSM.req_ld -> DATA_REG.req_ld {class : ctrl}
+FSM.rd_shift -> DATA_REG.rd_shift {class : ctrl}
+FSM.bank_ld -> BANK_SEL.bank_ld {class : ctrl}
+FSM.cnt_ld -> BYTE_COUNTER.cnt_ld {class : ctrl}
+FSM.cnt_dec -> BYTE_COUNTER.cnt_dec {class : ctrl}
+FSM.tmr_ld -> TIMER.tmr_ld {class : ctrl}
+FSM."tmr_sel[2:0]" -> TIMER."tmr_sel[2:0]" {class : ctrl}
+FSM."addr_sel[1:0]" -> ADDR_OUT."addr_sel[1:0]" {class : ctrl}
+FSM."dq_sel[1:0]" -> DQ_MUX."dq_sel[1:0]" {class : ctrl}
+
+# Estado hacia la FSM
+TIMER.tmr_done -> FSM.tmr_done {class : estado}
+BYTE_COUNTER.i_last -> FSM.i_last {class : estado}
+REQ_REG.lane_en -> FSM.lane_en {class : estado}
+BANK_SEL.banco_cambia -> FSM.banco_cambia {class : estado}
+
+# Índice de byte
+BYTE_COUNTER."i[1:0] " -> REQ_REG."i[1:0]" {class : datos}
+BYTE_COUNTER."i[1:0] " -> ADDR_MAPPER."i[1:0]" {class : datos}
+BYTE_COUNTER."i[1:0] " -> DATA_REG."i[1:0]" {class : datos}
+
+# Direcciones
+REQ_REG."req_addr[16:0] " -> ADDR_MAPPER."req_addr[16:0]" {class : datos}
+ADDR_MAPPER."banco[3:0]" -> BANK_SEL."banco[3:0]" {class : datos}
+ADDR_MAPPER."banco[3:0]" -> DQ_MUX."banco[3:0]" {class : datos}
+ADDR_MAPPER."fram_addr[15:0]" -> ADDR_OUT."fram_addr[15:0]" {class : datos}
+ADDR_OUT."ADDR[15:0]" -> CARTUCHO."ADDR[15:0]" {class : datos}
+
+# Datos
+DATA_REG."wbyte[7:0]" -> DQ_MUX."wbyte[7:0]" {class : datos}
+DQ_MUX."D_OUT[7:0]" -> DQ_TRI."D_OUT[7:0]" {class : datos}
+DQ_TRI."D_IN[7:0]" -> DATA_REG."D_IN[7:0]" {class : datos}
+DQ_TRI."D[7:0]" <-> BUF_DATA."D[7:0]" {class : datos}
+BUF_DATA."D[7:0] " <-> CARTUCHO."D[7:0]" {class : datos}
+
+# Señales de bus (registros de la FSM)
+FSM.D_OE -> DQ_TRI.D_OE {class : ctrl}
+FSM.DATA_DIR -> BUF_DATA.DATA_DIR {class : ctrl}
+FSM."#WR, #RD, #CS" -> BUF_CMD."#WR, #RD, #CS" {class : ctrl}
+FSM.CMD_OE -> BUF_CMD.CMD_OE {class : ctrl}
+BUF_CMD."#WR, #RD, #CS " -> CARTUCHO."#WR, #RD, #CS" {class : ctrl}

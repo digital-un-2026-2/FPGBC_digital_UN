@@ -1,0 +1,238 @@
+vars : {
+    d2-config : {
+        layout-engine : dagre
+        theme-id : 1
+    }
+}
+direction : down
+
+title : Diagrama de estados FSM controlador FRAM v1 {
+    near : top-center
+    shape : text
+    style.font-size : 32
+    style.bold : true
+}
+
+# Convenciones (coinciden con rtl/fram_fsm.v)
+# - Cada estado es un círculo con su nombre y las salidas que toma en ese
+#   estado. Todas las salidas son combinacionales según el estado actual
+#   (Moore); las no listadas toman el valor por defecto.
+# - Las flechas se rotulan con la condición de cambio de estado. "op = ..."
+#   indica el registro op, que se actualiza junto con el estado.
+# - La FSM principal cambia en el flanco negativo; las sub-máquinas, el TIMER
+#   y el data path, en el flanco positivo.
+# - En los estados que esperan al TIMER se permanece mientras tmr_done = 0
+#   (no se dibuja ese lazo). El TIMER vuelve a 0 con tmr_ld o tmr_done.
+# - Los estados con borde doble llaman a una sub-máquina: ESCRIBIR_BUS se
+#   activa con llamar_w y LEER_BUS con llamar_r; terminan en W_FIN / R_FIN
+#   (bus_done = 1 durante un ciclo) y regresan a IDLE.
+# - rst = 1 lleva la FSM principal a RESET; en RESET blk_rst = 1 lleva las
+#   sub-máquinas a IDLE. Un estado inválido también lleva a RESET.
+
+classes : {
+    estado : {
+        shape : circle
+        style.font-color : "#0A0F25"
+    }
+    llamada : {
+        shape : circle
+        style.double-border : true
+        style.font-color : "#0A0F25"
+    }
+    inicio : {
+        shape : circle
+        width : 20
+        height : 20
+        style.fill : "#0A0F25"
+        label : ""
+    }
+}
+
+# ---------------- FSM principal ----------------
+
+PRINCIPAL : "FSM principal (flanco negativo, one-hot)" {
+    rst_in : "rst = 1\n(desde cualquier estado)" {
+        shape : text
+    }
+
+    RESET : "RESET\n\nblk_rst = 1\nCMD_OE = 0" {
+        class : estado
+        style.fill : "#FFCDD2"
+    }
+    REPOSO : "REPOSO\n\n(valores por defecto)" {
+        class : estado
+        style.fill : "#E0E0E0"
+    }
+    BANCO : "BANCO\n\nmem_*busy = 1\nreq_ld = 1" {
+        class : estado
+        style.fill : "#FFE0B2"
+    }
+    RAMB : "RAMB\n\nmem_*busy = 1\nbank_ld = 1\naddr_sel = 1 (0x4000)\ndq_sel = 1 ({0000, banco})\nllamar_w = 1" {
+        class : llamada
+        style.fill : "#FFF9C4"
+    }
+    RAMG_ON : "RAMG_ON\n\nmem_*busy = 1\ncnt_ld = 1 (i = 3)\naddr_sel = 2 (0x0000)\ndq_sel = 2 (0x0A)\nllamar_w = 1" {
+        class : llamada
+        style.fill : "#DCEDC8"
+    }
+    LEER_BYTE : "LEER_BYTE\n\nmem_rbusy = 1\naddr_sel = 0 (fram_addr)\nllamar_r = 1" {
+        class : llamada
+        style.fill : "#B2EBF2"
+    }
+    ESC_CHK : "ESC_CHK\n\nmem_wbusy = 1" {
+        class : estado
+        style.fill : "#C5E1A5"
+    }
+    ESC_BYTE : "ESC_BYTE\n\nmem_wbusy = 1\naddr_sel = 0 (fram_addr)\ndq_sel = 0 (wbyte)\ncs = 0\nllamar_w = 1" {
+        class : llamada
+        style.fill : "#BBDEFB"
+    }
+    SIG_BYTE : "SIG_BYTE\n\nmem_*busy = 1\ncnt_dec = 1" {
+        class : estado
+        style.fill : "#FFCCBC"
+    }
+    RAMG_OFF : "RAMG_OFF\n\nmem_*busy = 1\naddr_sel = 2 (0x0000)\ndq_sel = 3 (0x00)\nllamar_w = 1" {
+        class : llamada
+        style.fill : "#E1BEE7"
+    }
+
+    rst_in -> RESET
+    RESET -> REPOSO : "rst = 0"
+    REPOSO -> BANCO : "mem_rstrb = 1\n/ op = LEER"
+    REPOSO -> BANCO : "mem_rstrb = 0 y mem_wmask != 0\n/ op = ESCRIBIR"
+    BANCO -> RAMB : "banco_cambia = 1"
+    BANCO -> RAMG_ON : "banco_cambia = 0"
+    RAMB -> RAMG_ON : "bus_done"
+    RAMG_ON -> LEER_BYTE : "bus_done y op = LEER"
+    RAMG_ON -> ESC_CHK : "bus_done y op = ESCRIBIR"
+    LEER_BYTE -> SIG_BYTE : "bus_done y i_last = 0"
+    LEER_BYTE -> RAMG_OFF : "bus_done y i_last = 1"
+    ESC_CHK -> ESC_BYTE : "lane_en = 1"
+    ESC_CHK -> SIG_BYTE : "lane_en = 0 y i_last = 0"
+    ESC_CHK -> RAMG_OFF : "lane_en = 0 y i_last = 1"
+    ESC_BYTE -> SIG_BYTE : "bus_done y i_last = 0"
+    ESC_BYTE -> RAMG_OFF : "bus_done y i_last = 1"
+    SIG_BYTE -> LEER_BYTE : "op = LEER"
+    SIG_BYTE -> ESC_CHK : "op = ESCRIBIR"
+    RAMG_OFF -> REPOSO : "bus_done"
+}
+
+# ---------------- Sub-máquina ESCRIBIR_BUS ----------------
+
+ESCRIBIR_BUS : "Sub-máquina ESCRIBIR_BUS (flanco positivo, one-hot)" {
+    ini : {class : inicio}
+
+    W_IDLE : "W_IDLE\n\ntmr_ld = 1" {
+        class : estado
+        style.fill : "#F5F5F5"
+    }
+    W_TURN : "W_TURN\n\ntmr_sel = T_TURN" {
+        class : estado
+        style.fill : "#D7CCC8"
+    }
+    W_SU : "W_SU\n\n#CS = cs\nD_OE = 1\nDATA_DIR = HACIA_CART\ntmr_sel = T_SU" {
+        class : estado
+        style.fill : "#C8E6C9"
+    }
+    W_WP : "W_WP\n\n#WR = 0, #CS = cs\nD_OE = 1\nDATA_DIR = HACIA_CART\ntmr_sel = T_WP" {
+        class : estado
+        style.fill : "#FFAB91"
+    }
+    W_HD : "W_HD\n\n#CS = cs\nD_OE = 1\nDATA_DIR = HACIA_CART\ntmr_sel = T_HD" {
+        class : estado
+        style.fill : "#B3E5FC"
+    }
+    W_PC : "W_PC\n\ntmr_sel = T_PC" {
+        class : estado
+        style.fill : "#F8BBD0"
+    }
+    W_FIN : "W_FIN\n\nbus_done = 1\ntmr_ld = 1" {
+        class : estado
+        style.fill : "#CFD8DC"
+    }
+
+    ini -> W_IDLE : "blk_rst"
+    W_IDLE -> W_TURN : "llamar_w = 1"
+    W_TURN -> W_SU : "tmr_done"
+    W_SU -> W_WP : "tmr_done"
+    W_WP -> W_HD : "tmr_done"
+    W_HD -> W_PC : "tmr_done"
+    W_PC -> W_FIN : "tmr_done"
+    W_FIN -> W_IDLE : "siempre"
+}
+
+# ---------------- Sub-máquina LEER_BUS ----------------
+
+LEER_BUS : "Sub-máquina LEER_BUS (flanco positivo, one-hot)" {
+    ini : {class : inicio}
+
+    R_IDLE : "R_IDLE\n\ntmr_ld = 1" {
+        class : estado
+        style.fill : "#F5F5F5"
+    }
+    R_SU : "R_SU\n\n#CS = 0\ntmr_sel = T_SU" {
+        class : estado
+        style.fill : "#C5CAE9"
+    }
+    R_ACC : "R_ACC\n\n#RD = 0, #CS = 0\ntmr_sel = T_ACC" {
+        class : estado
+        style.fill : "#FFCC80"
+    }
+    R_CAP : "R_CAP\n\n#RD = 0, #CS = 0\nrd_shift = 1\ntmr_ld = 1" {
+        class : estado
+        style.fill : "#FFF59D"
+    }
+    R_PC : "R_PC\n\ntmr_sel = T_PC" {
+        class : estado
+        style.fill : "#B2DFDB"
+    }
+    R_FIN : "R_FIN\n\nbus_done = 1\ntmr_ld = 1" {
+        class : estado
+        style.fill : "#CFD8DC"
+    }
+
+    ini -> R_IDLE : "blk_rst"
+    R_IDLE -> R_SU : "llamar_r = 1"
+    R_SU -> R_ACC : "tmr_done"
+    R_ACC -> R_CAP : "tmr_done"
+    R_CAP -> R_PC : "siempre (1 ciclo)"
+    R_PC -> R_FIN : "tmr_done"
+    R_FIN -> R_IDLE : "siempre"
+}
+
+# ---------------- Llamadas ----------------
+
+PRINCIPAL.RAMB -> ESCRIBIR_BUS : llamar_w {style.stroke-dash : 4; style.stroke : "#757575"}
+PRINCIPAL.RAMG_ON -> ESCRIBIR_BUS : llamar_w {style.stroke-dash : 4; style.stroke : "#757575"}
+PRINCIPAL.ESC_BYTE -> ESCRIBIR_BUS : llamar_w {style.stroke-dash : 4; style.stroke : "#757575"}
+PRINCIPAL.RAMG_OFF -> ESCRIBIR_BUS : llamar_w {style.stroke-dash : 4; style.stroke : "#757575"}
+PRINCIPAL.LEER_BYTE -> LEER_BUS : llamar_r {style.stroke-dash : 4; style.stroke : "#757575"}
+
+# ---------------- Valores por defecto y notas ----------------
+
+defecto : "Valores por defecto (salidas no listadas en el estado)" {
+    shape : sql_table
+    style.fill : "#5F6368"
+    "#WR, #RD, #CS" : "1" {constraint : bus}
+    D_OE : "0" {constraint : bus}
+    DATA_DIR : "HACIA_CTRL" {constraint : bus}
+    CMD_OE : "1" {constraint : bus}
+    "mem_rbusy, mem_wbusy" : "0" {constraint : CPU}
+    "addr_sel, dq_sel" : "0" {constraint : mux}
+    "req_ld, bank_ld, cnt_ld, cnt_dec, rd_shift" : "0" {constraint : datos}
+    "tmr_ld, tmr_sel" : "0, T_NONE" {constraint : timer}
+    blk_rst : "0" {constraint : reset}
+    cs : "1" {constraint : interno}
+    "llamar_w, llamar_r, bus_done" : "0" {constraint : interno}
+}
+
+notas : |md
+    **Lectura del diagrama**
+    - Círculo: estado y salidas que difieren del valor por defecto; todas se calculan solo con el estado actual.
+    - Flecha: condición de cambio de estado (`op = ...` actualiza el registro op).
+    - FSM principal en flanco negativo; sub-máquinas, TIMER y data path en flanco positivo.
+    - Borde doble: el estado llama a una sub-máquina (flecha punteada).
+    - En los estados que esperan al TIMER se permanece mientras `tmr_done = 0`.
+    - `mem_*busy = 1`: `mem_rbusy = (op = LEER)`, `mem_wbusy = (op = ESCRIBIR)`.
+    - `rst = 1` lleva la FSM principal a RESET; `blk_rst` lleva las sub-máquinas a IDLE.
+|

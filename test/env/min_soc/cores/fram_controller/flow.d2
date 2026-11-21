@@ -1,0 +1,128 @@
+vars : {
+    d2-config : {
+        layout-engine : dagre
+        theme-id : 1
+    }
+}
+direction : down
+
+title : Diagrama de flujo controlador FRAM (Hipótesis 1) {
+    near : top-center
+    shape : text
+    style.font-size : 32
+    style.bold : true
+}
+
+classes : {
+    decision : {
+        shape : diamond
+    }
+    llamada : {
+        style.fill : "#FFF4D6"
+    }
+    terminal : {
+        shape : oval
+    }
+}
+
+# ---------------- Máquina de estados principal ----------------
+FSM : Máquina de estados principal {
+    reset : "RESET\n#WR = #RD = #CS = 1\nD_OE = 0, DATA_DIR = HACIA_CTRL\nADDR = 0x0000\nluego CMD_OE = 1\nmem_rbusy = mem_wbusy = 0\nrdata = 0, banco_valido = 0" {class : terminal}
+
+    reposo : REPOSO {class : terminal}
+
+    q_rd : "¿mem_rstrb == 1?" {class : decision}
+    q_wr : "¿mem_wmask != 0?" {class : decision}
+
+    lat_rd : "req_addr = mem_addr[16:0]\nmem_rbusy = 1\nop = LEER"
+    lat_wr : "req_addr = mem_addr[16:0]\nreq_wdata = mem_wdata\nreq_wmask = mem_wmask\nmem_wbusy = 1\nop = ESCRIBIR"
+
+    calc_banco : "banco = req_addr[16:13]\n(bits altos de la dirección de byte:\n16 bancos de 8 KB = 128 KB)"
+
+    q_banco : "¿banco_valido == 0 o\nbanco != banco_actual?" {class : decision}
+
+    ramb : "ESCRIBIR_BUS(0x4000, {0000, banco}, cs=1)\nbanco_actual = banco, banco_valido = 1" {class : llamada}
+
+    ramg_on : "ESCRIBIR_BUS(0x0000, 0x0A, cs=1)\ni = 3" {class : llamada}
+
+    q_op : "¿op == LEER?" {class : decision}
+
+    leer_byte : "LEER_BYTE\ndir = {101, req_addr[12:2], i}\nrdata = {rdata[23:0], LEER_BUS(dir)}" {class : llamada}
+
+    q_wmask : "¿req_wmask[i] == 1?" {class : decision}
+
+    esc_byte : "ESCRIBIR_BYTE\ndir = {101, req_addr[12:2], i}\nESCRIBIR_BUS(dir, req_wdata[8i+7:8i], cs=0)" {class : llamada}
+
+    q_i_rd : "¿i == 0?" {class : decision}
+    q_i_wr : "¿i == 0?" {class : decision}
+    inc_rd : i = i - 1
+    inc_wr : i = i - 1
+
+    ramg_off : "ESCRIBIR_BUS(0x0000, 0x00, cs=1)" {class : llamada}
+
+    fin : "mem_rbusy = 0, mem_wbusy = 0\n(rdata se mantiene estable)"
+
+    reset -> reposo
+    reposo -> q_rd
+    q_rd -> lat_rd : sí
+    q_rd -> q_wr : no
+    q_wr -> lat_wr : sí
+    q_wr -> reposo : no
+    lat_rd -> calc_banco
+    lat_wr -> calc_banco
+    calc_banco -> q_banco
+    q_banco -> ramb : sí
+    q_banco -> ramg_on : no
+    ramb -> ramg_on
+    ramg_on -> q_op
+    q_op -> leer_byte : sí
+    q_op -> q_wmask : no
+
+    leer_byte -> q_i_rd
+    q_i_rd -> inc_rd : no
+    inc_rd -> leer_byte
+    q_i_rd -> ramg_off : sí
+
+    q_wmask -> esc_byte : sí
+    q_wmask -> q_i_wr : no
+    esc_byte -> q_i_wr
+    q_i_wr -> inc_wr : no
+    inc_wr -> q_wmask
+    q_i_wr -> ramg_off : sí
+
+    ramg_off -> fin
+    fin -> reposo
+}
+
+# ---------------- Procedimientos de bus ----------------
+
+ESCRIBIR_BUS : "ESCRIBIR_BUS(dir,dato,cs)" {
+    w1 : "#RD = #WR = #CS = 1\nADDR = dir"
+    w2 : "esperar(T_TURN)"
+    w3 : "DATA_DIR = HACIA_CART\nD_OUT = dato, D_OE = 1\n#CS = cs"
+    w4 : "esperar(T_SU)"
+    w5 : "#WR = 0\nesperar(T_WP)"
+    w6 : "#WR = 1\nesperar(T_HD)"
+    w7 : "#CS = 1, D_OE = 0\nDATA_DIR = HACIA_CTRL\nesperar(T_PC)"
+    w1 -> w2 -> w3 -> w4 -> w5 -> w6 -> w7
+}
+
+LEER_BUS : "LEER_BUS(dir)" {
+    r1 : "#WR = #RD = 1, D_OE = 0\nDATA_DIR = HACIA_CTRL\nADDR = dir, #CS = 0"
+    r2 : "esperar(T_SU)"
+    r3 : "#RD = 0\nesperar(T_ACC)"
+    r4 : "dato = D_IN"
+    r5 : "#RD = 1, #CS = 1\nesperar(T_PC)"
+    r1 -> r2 -> r3 -> r4 -> r5
+}
+
+# ---------------- Leyenda ----------------
+
+leyenda : Leyenda {
+    grid-columns : 1
+    grid-gap : 8
+    proc : "Llama a un procedimiento de bus" {class : llamada}
+    tiempos : "Tiempos T_*: ciclos = ceil(t_ns · f_clk)" {
+        shape : text
+    }
+}

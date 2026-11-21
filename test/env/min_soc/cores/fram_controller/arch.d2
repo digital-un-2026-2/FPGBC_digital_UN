@@ -1,0 +1,98 @@
+vars : {
+    d2-config : {
+        layout-engine : elk
+        theme-id : 1
+    }
+}
+direction : right
+
+title : Arquitectura Controlador FRAM v1 {
+    near : top-center
+    shape : text
+    style.font-size : 32
+    style.bold : true
+}
+
+# Solo se muestran las conexiones principales; el detalle de señales por
+# bloque está en data_path.d2.
+
+classes : {
+    sinc : {
+        style.fill : "#1F3A93"
+        style.font-color : "#FFFFFF"
+    }
+    comb : {
+        style.fill : "#2E7D32"
+        style.font-color : "#FFFFFF"
+    }
+}
+
+FPGA : FPGA consola {
+    CPU : FemtoRV
+    SYS_RST : "Reset del sistema"
+
+    FRAM_CONTROLLER : Controlador FRAM {
+        FSM : "FSM\n(salidas de bus registradas)" {class : sinc}
+        TIMER : "TIMER\n(espera en ciclos)" {class : sinc}
+        BYTE COUNTER : "BYTE COUNTER\n(i = 3 .. 0)" {class : sinc}
+        REQ REG : "REQ REG\n(req_addr, req_wmask)" {class : sinc}
+        BANK SELECTOR : "BANK SELECTOR\n(banco_actual, banco_valido)" {class : sinc}
+        DATA REG : "DATA REG\n(wdata / rdata con corrimiento)" {class : sinc}
+        ADDR MAPPER : ADDR MAPPER {class : comb}
+        ADDR OUT : "ADDR OUT\n(fram_addr / 0x4000 / 0x0000)" {class : comb}
+        DQ MUX : "DQ MUX\n(wbyte / {0000, banco} / 0x0A / 0x00)" {class : comb}
+        DQ TRI : "DQ TRI\n(tri-estado)" {class : comb}
+
+        FSM <-> TIMER
+        FSM <-> BYTE COUNTER
+        FSM -> REQ REG
+        FSM -> DATA REG
+        FSM <-> BANK SELECTOR
+        FSM -> ADDR OUT : "addr_sel[1:0]"
+        FSM -> DQ MUX : "dq_sel[1:0]"
+
+        REQ REG -> ADDR MAPPER : "req_addr[16:0]"
+        BYTE COUNTER -> ADDR MAPPER : "i[1:0]"
+        BYTE COUNTER -> DATA REG : "i[1:0]"
+        ADDR MAPPER -> BANK SELECTOR : "banco[3:0]"
+        ADDR MAPPER -> DQ MUX : "banco[3:0]"
+        ADDR MAPPER -> ADDR OUT : "fram_addr[15:0]"
+        DATA REG -> DQ MUX : "wbyte[7:0]"
+        DQ MUX -> DQ TRI : "D_OUT[7:0]"
+        DQ TRI -> DATA REG : "D_IN[7:0]"
+        FSM -> DQ TRI : D_OE
+    }
+
+    CPU -> FRAM_CONTROLLER.REQ REG : "mem_addr[16:0]"
+    CPU -> FRAM_CONTROLLER.DATA REG : "mem_wdata[31:0]"
+    CPU -> FRAM_CONTROLLER.FSM : "mem_wmask[3:0]"
+    CPU -> FRAM_CONTROLLER.FSM : "mem_rstrb"
+    SYS_RST -> FRAM_CONTROLLER.FSM : "rst"
+    CPU <- FRAM_CONTROLLER.DATA REG : "mem_rdata[31:0]"
+    CPU <- FRAM_CONTROLLER.FSM : "mem_rbusy"
+    CPU <- FRAM_CONTROLLER.FSM : "mem_wbusy"
+}
+
+BUFFERS : Buffers externos (3.3V <-> 5V) {
+    BUF_DATA : Buffer de datos\n(bidireccional)
+    BUF_CMD : Buffer de control
+}
+
+CARTUCHO : Cartucho
+
+FPGA.FRAM_CONTROLLER.DQ TRI <-> BUFFERS.BUF_DATA : "D[7:0]"
+FPGA.FRAM_CONTROLLER.FSM -> BUFFERS.BUF_DATA : "DATA_DIR"
+FPGA.FRAM_CONTROLLER.FSM -> BUFFERS.BUF_CMD : "#WR, #RD, #CS"
+FPGA.FRAM_CONTROLLER.FSM -> BUFFERS.BUF_CMD : "CMD_OE"
+
+BUFFERS.BUF_DATA <-> CARTUCHO : "D[7:0]"
+BUFFERS.BUF_CMD -> CARTUCHO : "#WR, #RD, #CS"
+FPGA.FRAM_CONTROLLER.ADDR OUT -> CARTUCHO : "ADDR[15:0]"
+
+leyenda : Leyenda {
+    near : bottom-right
+    grid-columns : 1
+    grid-gap : 8
+    s : "Síncrono" {class : sinc}
+    c : "Combinacional" {class : comb}
+}
