@@ -1,8 +1,5 @@
 #!/bin/bash
 
-BIN_DIR="$CONDA_PREFIX/bin"
-ln -sf "$BIN_DIR/yowasp-nextpnr-himbaechel-gowin" "$BIN_DIR/nextpnr-himbaechel-gowin"
-
 # Definir versión y ubicación de instalación local (carpeta oculta en el proyecto)
 TOOLCHAIN_VERSION="15.2.0-1"
 TOOLCHAIN_NAME="xpack-riscv-none-elf-gcc-${TOOLCHAIN_VERSION}"
@@ -23,6 +20,12 @@ if [ ! -x "$TOOLCHAIN_BIN" ]; then
     fi
 else 
     echo "✅ Toolchain instalado en $TOOLCHAIN_DIR"
+fi
+
+# 2. nextpnr para Gowin, compilado contra la apycula de este entorno (en .nextpnr/)
+if ! bash "$PIXI_PROJECT_ROOT/scripts/build_nextpnr.sh"; then
+    echo "❌ Error al compilar nextpnr."
+    exit 1
 fi
 
 echo "Añadiendo activador de entorno en ~/.bashrc"

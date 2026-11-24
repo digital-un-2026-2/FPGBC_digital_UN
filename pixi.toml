@@ -11,10 +11,13 @@ preview = ["pixi-build"]
 [activation.env]
 TOOLCHAIN_NAME="xpack-riscv-none-elf-gcc-15.2.0-1"
 TOOLCHAIN_DIR="$PIXI_PROJECT_ROOT/.toolchain/$TOOLCHAIN_NAME"
-PATH="$TOOLCHAIN_DIR/bin:$PATH"
+# nextpnr-himbaechel (Gowin) compilado localmente por scripts/setup_env.sh
+NEXTPNR_DIR="$PIXI_PROJECT_ROOT/.nextpnr"
+PATH="$NEXTPNR_DIR/bin:$TOOLCHAIN_DIR/bin:$PATH"
 
 [tasks]
 setup-env = "bash scripts/setup_env.sh"
+build-nextpnr = "bash scripts/build_nextpnr.sh"
 test-EDA = "bash test/env/eda_test.sh"
 
 #build-soc = "python src/soc_target.py --build"
@@ -24,7 +27,7 @@ test-EDA = "bash test/env/eda_test.sh"
 # Binarios Nativos y Compiladores (desde conda-forge y  litex-hub)
 [dependencies]
 python = "3.11.*"
-yosys = ">=0.7"
+yosys = ">=0.71"
 
 # Programador y simulación
 openfpgaloader = ">=1.1.1"
@@ -34,14 +37,21 @@ iverilog = "<=12.0"
 #Se descarga en scripts/setup_env
 meson = ">=1.12.1,<2"
 ninja = ">=1.13.2,<2"
+# Compilación de nextpnr (scripts/setup_env.sh)
+cmake = ">=3.25"
+cxx-compiler = "*"
+libboost-devel = "*"
+eigen = "*"
 
 #Paquetes de Python desde Git
 [pypi-dependencies]
 migen = { git = "https://github.com/m-labs/migen.git", branch = "master" }
 litex = { git = "https://github.com/enjoy-digital/litex.git", branch = "master" }
 litex-boards = { git = "https://github.com/litex-hub/litex-boards.git", branch = "master" }
-apycula = "*"
-yowasp-nextpnr-himbaechel-gowin = "*"
+# apycula con los pines internos de la PSRAM del GW2AR-18 eLQFP144P
+# (generado con scripts/apycula_psram/make_wheel.py). nextpnr ya no viene de
+# yowasp: se compila contra esta base en scripts/setup_env.sh
+apycula = { path = "vendor/apycula-0.36+psram-py3-none-any.whl" }
 
 # Cores del ecosistema LiteX
 litespi = { git = "https://github.com/litex-hub/litespi.git", branch = "master" }

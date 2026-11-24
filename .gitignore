@@ -6,5 +6,6 @@ build*/
 .vscode/
 __pycache__/
 .toolchain/
+.nextpnr/
 eda_test.log
 /.nvim/
