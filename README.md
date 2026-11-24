@@ -52,7 +52,7 @@ Así, se identifica que la FPGA es quien tiene más memoria, sin embargo, esta n
 ## Herramientas
 Para el proyecto se utilizan las siguientes herramientas
 - [Yosys](https://github.com/YosysHQ/yosys)
-- [nextpnr](https://github.com/YosysHQ/nextpnr) en su versión para [Gowin](https://www.gowinsemi.com/) (`nextpnr-himbaechel`), compilado localmente en `.nextpnr/` (ya no se usa el paquete de [YoWASP](https://yowasp.org/), ver [PSRAM interna](#psram-interna-y-nextpnr))
+- [nextpnr](https://github.com/YosysHQ/nextpnr) en su versión para [Gowin](https://www.gowinsemi.com/) (`nextpnr-himbaechel`), compilado localmente en `.nextpnr/` (ver [PSRAM interna](#psram-interna-y-nextpnr))
 - [Project Apicula](https://github.com/YosysHQ/apicula), versión con los pines de la PSRAM interna (`vendor/`)
 - [openFPGALoader](https://github.com/trabucayre/openFPGALoader)
 - [LiteX](https://github.com/enjoy-digital/litex/)
