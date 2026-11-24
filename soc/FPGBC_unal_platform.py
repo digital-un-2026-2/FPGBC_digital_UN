@@ -76,12 +76,14 @@ _io = [
 
     # PSRAM Interna
     # https://github.com/litex-hub/litex-boards/blob/master/litex_boards/platforms/sipeed_tang_nano_9k.py
-    #("O_psram_ck",      0, Pins(2)),
-    #("O_psram_ck_n",    0, Pins(2)),
-    #("O_psram_cs_n",    0, Pins(2)),
-    #("O_psram_reset_n", 0, Pins(2)),
-    #("IO_psram_dq",     0, Pins(16)),
-    #("IO_psram_rwds",   0, Pins(2)),
+    # Sin ubicación: nextpnr los restringe a los IOB internos del SiP por nombre
+    # (sip_cst GW2AR-18C/eLQFP144P en vendor/apycula-0.32+psram)
+    ("O_psram_ck",      0, Pins(2)),
+    ("O_psram_ck_n",    0, Pins(2)),
+    ("O_psram_cs_n",    0, Pins(2)),
+    ("O_psram_reset_n", 0, Pins(2)),
+    ("IO_psram_dq",     0, Pins(16)),
+    ("IO_psram_rwds",   0, Pins(2)),
 ]
 
 # Platform -----------------------------------------------------------------------------------------
@@ -104,7 +106,7 @@ class Platform(GowinPlatform):
         #    return GowinProgrammer(self.devicename)
         if kit == "openfpgaloader":
             programmer = OpenFPGALoader(cable="ft232RL")
-            programmer.cmd += ["--pins","TXD:CTS:DTR:RXD"]
+            programmer.cmd += ["--pins","TXD:CTS:RTS:RXD"]
             #                           TDI:TDO:TCK:TMS
             return programmer
         else:

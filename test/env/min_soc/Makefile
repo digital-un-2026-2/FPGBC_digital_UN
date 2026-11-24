@@ -2,7 +2,7 @@
 
 PIXI_BIN := $(abspath ../../../.pixi/envs/default/bin)
 EQ144_YOSYS ?= $(if $(wildcard $(PIXI_BIN)/yosys),$(PIXI_BIN)/yosys,yosys)
-EQ144_NEXTPNR ?= $(or $(shell command -v nextpnr-himbaechel-gowin 2>/dev/null),$(if $(wildcard $(PIXI_BIN)/yowasp-nextpnr-himbaechel-gowin),$(PIXI_BIN)/yowasp-nextpnr-himbaechel-gowin,yowasp-nextpnr-himbaechel-gowin))
+EQ144_NEXTPNR ?= $(or $(shell command -v nextpnr-himbaechel-gowin 2>/dev/null),$(wildcard $(abspath ../../../.nextpnr/bin/nextpnr-himbaechel)),nextpnr-himbaechel)
 EQ144_PACK ?= $(if $(wildcard $(PIXI_BIN)/gowin_pack),$(PIXI_BIN)/gowin_pack,gowin_pack)
 EQ144_LOADER ?= $(if $(wildcard $(PIXI_BIN)/openFPGALoader),$(PIXI_BIN)/openFPGALoader,openFPGALoader)
 IVERILOG ?= $(if $(wildcard $(PIXI_BIN)/iverilog),$(PIXI_BIN)/iverilog,iverilog)

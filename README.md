@@ -52,8 +52,8 @@ Así, se identifica que la FPGA es quien tiene más memoria, sin embargo, esta n
 ## Herramientas
 Para el proyecto se utilizan las siguientes herramientas
 - [Yosys](https://github.com/YosysHQ/yosys)
-- [nextpnr](https://github.com/YosysHQ/nextpnr) en su versión para [Gowin](https://www.gowinsemi.com/) via [YoWASP](https://yowasp.org/)
-- [Project Apicula](https://github.com/YosysHQ/apicula)
+- [nextpnr](https://github.com/YosysHQ/nextpnr) en su versión para [Gowin](https://www.gowinsemi.com/) (`nextpnr-himbaechel`), compilado localmente en `.nextpnr/` (ya no se usa el paquete de [YoWASP](https://yowasp.org/), ver [PSRAM interna](#psram-interna-y-nextpnr))
+- [Project Apicula](https://github.com/YosysHQ/apicula), versión con los pines de la PSRAM interna (`vendor/`)
 - [openFPGALoader](https://github.com/trabucayre/openFPGALoader)
 - [LiteX](https://github.com/enjoy-digital/litex/)
 - [gtkwave](https://github.com/gtkwave/gtkwave)
@@ -79,7 +79,7 @@ cd FPGBC_digital_UN
 ```bash
 [ FPGBC_digital_UN]$ pixi install
 ```
-4. Configurar el entorno: se descarga el RISC-V toolchain y se pide **autorización** para agregar las reglas udev para acceder al usb, también se añade un comando para activar el entorno desde cualquier lugar[^shellnote]. 
+4. Configurar el entorno: se descarga el RISC-V toolchain, se compila nextpnr (algunos minutos, requiere `git` y conexión a internet), se pide **autorización** para agregar las reglas udev para acceder al usb, también se añade un comando para activar el entorno desde cualquier lugar[^shellnote]. 
 ```bash
 [ FPGBC_digital_UN]$ pixi run setup-env
 ```
@@ -97,6 +97,21 @@ Puede utilizar el entorno y sus herramientas mediante comandos propios de pixi `
 - En cualquier lugar `$ FPGBC_workspace_activate`[^shellnote]
 
 [^shellnote]: El comando `FPGBC_workspace_activate` se añadió al archivo ~/.bashrc, si utiliza otro shell puede que no funcione
+
+### PSRAM interna y nextpnr
+La PSRAM integrada en el GW2AR-18 (eLQFP144P) se conecta a la FPGA por pines internos que no están en el empaquetado. Apicula (hasta la 0.35) no incluye ese mapeo para este empaquetado, así que el proyecto usa un wheel modificado en `vendor/apycula-0.35+psram-py3-none-any.whl` que añade los 26 pines (`sip_cst["GW2AR-18C"]["eLQFP144P"]`). Con esto nextpnr coloca los puertos `O_psram_*` / `IO_psram_*` en los IOB internos sin necesidad de `IO_LOC`.
+
+- **nextpnr ya no depende de YoWASP**: `yowasp-nextpnr-himbaechel-gowin` trae una chipdb precompilada sin estos pines. En su lugar `nextpnr-0.11.1` se compila contra la apycula del entorno y se instala en `.nextpnr/` (dentro del proyecto), que pixi añade al `PATH`.
+- La compilación la hace `pixi run setup-env`. Si cambia apycula, se recompila con:
+```bash
+[ FPGBC_digital_UN]$ pixi run build-nextpnr
+```
+  El script detecta si la chipdb está desactualizada; `FORCE=1 pixi run build-nextpnr` fuerza la recompilación.
+- Para regenerar el wheel con otra versión de apycula (por ejemplo, descargando el `.whl` desde PyPI):
+```bash
+[ FPGBC_digital_UN]$ pixi run python scripts/apycula_psram/make_wheel.py apycula-X.Y-py3-none-any.whl vendor
+```
+  Luego se actualiza la ruta en `pixi.toml` y se ejecuta `pixi install` y `pixi run build-nextpnr`.
 
 ## Prueba de SoC mínimo
 1. Verificar conexiones físicas

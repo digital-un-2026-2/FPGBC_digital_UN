@@ -30,7 +30,7 @@ from femtorv32_intermissum import FemtoRVIntermissumIRQ
 # CRG ----------------------------------------------------------------------------------------------
 
 class _CRG(LiteXModule):
-    def __init__(self, platform, sys_clk_freq, with_hyperram):
+    def __init__(self, platform, sys_clk_freq, with_hyperram, hyperram_clk_ratio="4:1"):
         self.rst      = Signal()#Litex resuelve por detras
         self.cd_sys   = ClockDomain()
         self.cd_por   = ClockDomain()
@@ -53,9 +53,16 @@ class _CRG(LiteXModule):
         pll.create_clkout(self.cd_sys, sys_clk_freq)
 
         # HyperRAM Clock.
+        # El PHY de HyperRAM corre en sys4x con clk_ratio="4:1" y en sys2x con "2:1".
         if with_hyperram:
-            self.cd_sys4x = ClockDomain()
-            pll.create_clkout(self.cd_sys4x, 4*sys_clk_freq)
+            if hyperram_clk_ratio == "4:1":
+                self.cd_sys4x = ClockDomain()
+                pll.create_clkout(self.cd_sys4x, 4*sys_clk_freq)
+            elif hyperram_clk_ratio == "2:1":
+                self.cd_sys2x = ClockDomain()
+                pll.create_clkout(self.cd_sys2x, 2*sys_clk_freq)
+            else:
+                raise ValueError(f"Unsupported HyperRAM clock ratio: {hyperram_clk_ratio}")
 
 
 # BaseSoC ------------------------------------------------------------------------------------------
@@ -69,10 +76,12 @@ class BaseSoC(SoCCore):
 
         platform = FPGBC_unal_platform.Platform(toolchain=toolchain)
         # CRG --------------------------------------------------------------------------------------
-        #PSRAM integrada no disponible <por ahora>
-        with_hyperram = False #not kwargs.get("integrated_main_ram_size", 0)
+        # PSRAM integrada: se usa como main_ram cuando no hay RAM integrada
+        # (--integrated-main-ram-size 0), igual que en sipeed_tang_nano_9k.
+        with_hyperram = not kwargs.get("integrated_main_ram_size", 0)
+        hyperram_clk_ratio = "2:1"
 
-        self.crg = _CRG(platform, sys_clk_freq,with_hyperram)
+        self.crg = _CRG(platform, sys_clk_freq, with_hyperram, hyperram_clk_ratio)
 
         # SoCCore ----------------------------------------------------------------------------------
         class GB_Link_UART_Pads:
@@ -92,19 +101,19 @@ class BaseSoC(SoCCore):
         
         #HyperRAM/PSRAM ---------------------------------------------------------------------------------
         #https://github.com/litex-hub/litex-boards/blob/master/litex_boards/targets/sipeed_tang_nano_9k.py
-        #if with_hyperram:
-        #    class HyperRAMPads:
-        #        pass
-        #    hyperram_pads = HyperRAMPads()
-        #    hyperram_pads.clk    = platform.request("O_psram_ck")
-        #    hyperram_pads.clk_n  = platform.request("O_psram_ck_n")
-        #    hyperram_pads.cs_n   = platform.request("O_psram_cs_n")
-        #    hyperram_pads.rst_n  = platform.request("O_psram_reset_n")
-        #    hyperram_pads.dq     = platform.request("IO_psram_dq")
-        #    hyperram_pads.rwds   = platform.request("IO_psram_rwds")
-        #    self.hyperram = GowinHyperRAM(hyperram_pads, sys_clk_freq=sys_clk_freq, clk_ratio="4:1")
-        #    #Por que se usa ese clk ratio? Por velocidad, se puede acceder a los datos de la ram antes de que el procesador los necesite
-        #    self.bus.add_slave("main_ram", slave=self.hyperram.bus, region=SoCRegion(origin=self.mem_map["main_ram"], size=4 * MEGABYTE, mode="rwx"))
+        if with_hyperram:
+            class HyperRAMPads:
+                pass
+            hyperram_pads = HyperRAMPads()
+            hyperram_pads.clk    = platform.request("O_psram_ck")
+            hyperram_pads.clk_n  = platform.request("O_psram_ck_n")
+            hyperram_pads.cs_n   = platform.request("O_psram_cs_n")
+            hyperram_pads.rst_n  = platform.request("O_psram_reset_n")
+            hyperram_pads.dq     = platform.request("IO_psram_dq")
+            hyperram_pads.rwds   = platform.request("IO_psram_rwds")
+            self.hyperram = GowinHyperRAM(hyperram_pads, sys_clk_freq=sys_clk_freq, clk_ratio=hyperram_clk_ratio)
+            #Por que se usa ese clk ratio? Por velocidad, se puede acceder a los datos de la ram antes de que el procesador los necesite
+            self.bus.add_slave("main_ram", slave=self.hyperram.bus, region=SoCRegion(origin=self.mem_map["main_ram"], size=4 * MEGABYTE, mode="rwx"))
         
         #La ram correcta es PSRAM https://github.com/YosysHQ/apicula/issues/332
         # que considerando instrucciones y datos de 32 bits se considera un _tamaño_ de $\frac{64e6}{8} \frac{1}{2} = 4MB$,
