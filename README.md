@@ -99,7 +99,7 @@ Puede utilizar el entorno y sus herramientas mediante comandos propios de pixi `
 [^shellnote]: El comando `FPGBC_workspace_activate` se añadió al archivo ~/.bashrc, si utiliza otro shell puede que no funcione
 
 ### PSRAM interna y nextpnr
-La PSRAM integrada en el GW2AR-18 (eLQFP144P) se conecta a la FPGA por pines internos que no están en el empaquetado. Apicula (hasta la 0.35) no incluye ese mapeo para este empaquetado, así que el proyecto usa un wheel modificado en `vendor/apycula-0.35+psram-py3-none-any.whl` que añade los 26 pines (`sip_cst["GW2AR-18C"]["eLQFP144P"]`). Con esto nextpnr coloca los puertos `O_psram_*` / `IO_psram_*` en los IOB internos sin necesidad de `IO_LOC`.
+La PSRAM integrada en el GW2AR-18 (eLQFP144P) se conecta a la FPGA por pines internos que no están en el empaquetado. Apicula (hasta la 0.36) no incluye ese mapeo para este empaquetado, así que el proyecto usa un wheel modificado en `vendor/apycula-0.36+psram-py3-none-any.whl` que añade los 26 pines (`sip_cst["GW2AR-18C"]["eLQFP144P"]`). Con esto nextpnr coloca los puertos `O_psram_*` / `IO_psram_*` en los IOB internos sin necesidad de `IO_LOC`.
 
 - **nextpnr ya no depende de YoWASP**: `yowasp-nextpnr-himbaechel-gowin` trae una chipdb precompilada sin estos pines. En su lugar `nextpnr-0.11.1` se compila contra la apycula del entorno y se instala en `.nextpnr/` (dentro del proyecto), que pixi añade al `PATH`.
 - La compilación la hace `pixi run setup-env`. Si cambia apycula, se recompila con:

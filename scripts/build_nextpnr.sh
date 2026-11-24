@@ -13,7 +13,7 @@ set -euo pipefail
 : "${PIXI_PROJECT_ROOT:?Ejecutar dentro del entorno pixi (pixi run build-nextpnr)}"
 : "${CONDA_PREFIX:?Ejecutar dentro del entorno pixi (pixi run build-nextpnr)}"
 
-# nextpnr-0.11.1 es el nextpnr de la toolchain "stable" de apicula 0.35
+# nextpnr-0.11.1 es el nextpnr de la toolchain "stable" de apicula 0.36 (con yosys 0.71)
 NEXTPNR_VERSION="nextpnr-0.11.1"
 NEXTPNR_REPO="https://github.com/YosysHQ/nextpnr.git"
 # GW2A-18C: FPGA de la FPGBC (GW2AR-18C). GW1N-9C: Tang Nano 9K (pixi run test-EDA)

@@ -27,7 +27,7 @@ test-EDA = "bash test/env/eda_test.sh"
 # Binarios Nativos y Compiladores (desde conda-forge y  litex-hub)
 [dependencies]
 python = "3.11.*"
-yosys = ">=0.7"
+yosys = ">=0.71"
 
 # Programador y simulación
 openfpgaloader = ">=1.1.1"
@@ -51,7 +51,7 @@ litex-boards = { git = "https://github.com/litex-hub/litex-boards.git", branch =
 # apycula con los pines internos de la PSRAM del GW2AR-18 eLQFP144P
 # (generado con scripts/apycula_psram/make_wheel.py). nextpnr ya no viene de
 # yowasp: se compila contra esta base en scripts/setup_env.sh
-apycula = { path = "vendor/apycula-0.35+psram-py3-none-any.whl" }
+apycula = { path = "vendor/apycula-0.36+psram-py3-none-any.whl" }
 
 # Cores del ecosistema LiteX
 litespi = { git = "https://github.com/litex-hub/litespi.git", branch = "master" }

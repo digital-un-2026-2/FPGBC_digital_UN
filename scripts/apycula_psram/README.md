@@ -1,7 +1,7 @@
 # Pines internos de la PSRAM — GW2AR-LV18EQ144PC8/I7 (eLQFP144P)
 
 `sip_cst_GW2AR-18C_eLQFP144P.json` es la entrada `sip_cst["GW2AR-18C"]["eLQFP144P"]` que falta en
-apycula (hasta la 0.35). Su formato es `(net, row, col, bel, iostd)`, en la base GW2A-18C (55×56).
+apycula (hasta la 0.36). Su formato es `(net, row, col, bel, iostd)`, en la base GW2A-18C (55×56).
 nextpnr la usa para restringir por nombre los puertos `O_psram_*` / `IO_psram_*` a los IOB internos
 (`himbaechel/uarch/gowin/cst.cc: add_sip_constraints`).
 
