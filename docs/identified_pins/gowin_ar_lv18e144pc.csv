@@ -9,11 +9,11 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 15,IOR39A/SCLK,I/O,SCLK,MCU PIN 16;
 23,IOL32A,I/O,None, EEPROM SDA;
 24,IOL32B,I/O,None, EEPROM SCL;
-90,IOR35B/SI/D2,I/O,SI/D2,MCU PIN 28;
-88,IOR36A/SO/D1,I/O,SO/D1/D0,MCU PIN 39;
+90,IOR35B/SI/D2,I/O,SI/D2,MCU PIN 38;
+88,IOR36A/SO/D1,I/O,SO/D1/D0,MCU PIN 41;
 87,IOR36B/SSPI_CS_N/D0,I/O,SSPI_CS_N/D0,GND;
 86,IOR38A/DIN/CLKHOLD_N,I/O,DIN/CLKHOLD_N,MCU PIN 40;
-144,IOR30A/MODE0,I/O,MODE0,GND(X); 
+144,IOR30A/MODE0,I/O,MODE0,MCU PIN 17; 
 142,IOR30B/MODE1,I/O,MODE1,GND(X);
 143,IOR31A/MODE2,I/O,MODE2,GND(X);
 139,IOT4B,I/O,None,GND;
@@ -107,5 +107,5 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 120,IOT30B/GCLKC_1,I/O,None,Volume Button (Pull Up)
 121,IOT30A/GCLKT_1,I/O,None,Volume - (Pull Up)
 11,IOL27A/GCLKT_7,I/O,None, Clock 40MHz
-47,,I/O,None,Screen Backlight PWM
-46,,I/O,None,Power Enable Screen Backlight
+47,IOB14B,I/O,None,Screen Backlight PWM
+46,IOB14A,I/O,None,Power Enable Screen Backlight
