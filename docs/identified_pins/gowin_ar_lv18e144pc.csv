@@ -107,3 +107,5 @@ FPGA Pin Number, Pin Name,Function,Configuration Function, Connected To;
 120,IOT30B/GCLKC_1,I/O,None,Volume Button (Pull Up)
 121,IOT30A/GCLKT_1,I/O,None,Volume - (Pull Up)
 11,IOL27A/GCLKT_7,I/O,None, Clock 40MHz
+47,,I/O,None,Screen Backlight PWM
+46,,I/O,None,Power Enable Screen Backlight
